@@ -1,0 +1,34 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <link rel="stylesheet" type="text/css" href="test_design_style.css">
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Профессии</title>
+</head>
+
+<body>
+<header th:insert="blocks/header"></header>
+<div class="main">
+
+    <a href="/occupation/add" id="add">Добавить профессию</a>
+    <div th:each="line : ${occupations}">
+        <a th:href="'/occupation' + ${line.occupation_id}">
+            <h3 th:text="${line.occupation_name}"></h3>
+        </a>
+        <p th:text="${line.description}"></p>
+    </div>
+
+    <!--    <div class="main">-->
+    <div th:each="line : ${occupations}">
+        <a th:href="'/occupation' + ${line.occupation_id}">
+            <h3 th:text="${line.occupation_name}"></h3>
+        </a>
+        <!--        <p th:text="${line.description}"></p>-->
+        <!--        </div>-->
+
+    </div>
+</div>
+</body>
+</html>

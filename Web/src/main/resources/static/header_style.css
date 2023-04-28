@@ -1,0 +1,43 @@
+div#header{
+    margin-right: 30px;
+    margin-left: 30px;
+    margin-top: 30px;
+    background-color: rgb(240, 248, 255, 0.8);
+    font-family: "Agency FB Cyrillic";
+
+
+}
+div#header>a, a#add{
+    background: linear-gradient(90deg, rgba(131,58,180,1) 0%, rgba(253,29,29,1) 50%, rgba(252,176,69,1) 100%);
+    text-decoration: none;
+    color: black;
+    font-family: "Agency FB Cyrillic";
+    font-size: larger;
+    width: 100px;
+    height: 40px;
+    padding: 10px;
+
+    margin-left: 20px;
+    border: black;
+    border: 2px solid black;
+    font-weight: 500;
+
+}
+body{
+    /*background-color: aquamarine;*/
+    background: url("https://vsegda-pomnim.com/uploads/posts/2022-04/1651052109_2-vsegda-pomnim-com-p-more-svetloe-foto-2.jpg") fixed;
+}
+div.main{
+    background-color: rgb(240, 248, 255, 0.8);
+    margin: 50px;
+    text-align: center;
+    font-family: "Agency FB Cyrillic";
+
+}
+div#main{
+    background-color: rgb(240, 248, 255, 0.8);
+    margin: 50px;
+    text-align: center;
+    font-family: "Agency FB Cyrillic";
+
+}

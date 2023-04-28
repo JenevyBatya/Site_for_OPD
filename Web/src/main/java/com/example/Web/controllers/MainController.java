@@ -20,13 +20,20 @@ public class MainController {
         model.addAttribute("occupations", occupations);
         return "test_design";
     }
-    @GetMapping("/login")
-    public String login(Model model){
-        model.addAttribute("title","Login page");
+
+//    @GetMapping("/occupation")
+//    public String occupation(Model model){
+//        model.addAttribute("title","Main page");
 //        Iterable<occupation> occupations = occupationRepository.findAll();
 //        model.addAttribute("occupations", occupations);
-        return "Login";
+//        return "Occupation";
+//    }
+    @GetMapping("/tests")
+    public String occupation_add(Model model) {
+        model.addAttribute("title", "Main page");
+        Iterable<occupation> occupations = occupationRepository.findAll();
+        model.addAttribute("occupations", occupations);
+        return "test1";
+
     }
-
-
 }

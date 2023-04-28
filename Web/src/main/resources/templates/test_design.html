@@ -10,6 +10,7 @@
 
 </head>
 <body>
+<header th:insert="blocks/header"></header>
     <div id="autorization">
         <a href="/login">
             <button type="submit">Log in</button>
@@ -20,7 +21,7 @@
 
         </form>
     </div>
-<div id="main">
+<div class="main">
     <pre>
                              ..........／＞　   フ.....................
         　　　　　| 　_　 _|
@@ -31,15 +32,11 @@
         　| (￣ヽ＿_ヽ_)_)
         
     </pre>
+
     <p>Сайт в состоянии разработки, у нас лапки:(</p>
     <p th:text="'Hello, ' + ${title} + '!'" />
 
-    <div th:each="line : ${occupations}">
 
-        <h3 th:text="${line.occupation_name}"></h3>
-
-        <p th:text="${line.description}"></p>
-    </div>
 
 </div>
 
