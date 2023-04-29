@@ -1,7 +1,7 @@
 package com.example.Web.repo;
 
-import com.example.Web.models.occupation;
+import com.example.Web.models.Occupation;
 import org.springframework.data.repository.CrudRepository;
 
-public interface OccupationRepository extends CrudRepository<occupation, Integer> {
+public interface OccupationRepository extends CrudRepository<Occupation, Integer> {
 }

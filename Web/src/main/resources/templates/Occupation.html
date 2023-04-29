@@ -14,7 +14,7 @@
 
     <a href="/occupation/add" id="add">Добавить профессию</a>
     <div th:each="line : ${occupations}">
-        <a th:href="'/occupation' + ${line.occupation_id}">
+        <a th:href="'/occupation/' + ${line.occupation_id}">
             <h3 th:text="${line.occupation_name}"></h3>
         </a>
         <p th:text="${line.description}"></p>
@@ -22,7 +22,7 @@
 
     <!--    <div class="main">-->
     <div th:each="line : ${occupations}">
-        <a th:href="'/occupation' + ${line.occupation_id}">
+        <a th:href="'/occupation/' + ${line.occupation_id}">
             <h3 th:text="${line.occupation_name}"></h3>
         </a>
         <!--        <p th:text="${line.description}"></p>-->

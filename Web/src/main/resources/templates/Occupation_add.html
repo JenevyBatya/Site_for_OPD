@@ -6,55 +6,37 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Добавление профессии</title>
+    <script th:inline="javascript">
+        function validateForm() {
+            let x = document.forms["form"]["description","occupation_name"].value;
+            if (x == "") {
+                alert("Field must be filled out");
+                return false;
+            }
+        }
+
+        function validateCheckbox() {
+            let checkboxes = document.querySelectorAll('input[type=checkbox][name=selectedIds]:checked');
+            if (checkboxes.length > 5) {
+                alert("Вы можете выбрать не более 5 чекбоксов!");
+                return false;
+            }
+            return true;
+        }
+    </script>
 </head>
 
 <body>
-<header th:insert="blocks/header">
-    <link rel="stylesheet" type="text/css" href="header_style.css">
-</header>
+<header th:insert="blocks/header"></header>
 <div class="main">
+    <p th:text="'Hello, ' + ${title} + '!'" />
     <div>
-        <form action="/occupation/add" method="post">
+        <form action="/occupation/add" method="post" onsubmit="return validateForm()" name="form">
             <input type="text" name="occupation_name" placeholder="Введите название профессии" class="form-control"><br>
             <input type="text" name="description" placeholder="Введите описание профессии"><br>
-
             <button type="submit" class="bt bt-success">Добавить профессиию</button>
         </form>
     </div>
 </div>
 </body>
 </html>
-<!--<!DOCTYPE html>-->
-<!--<html xmlns:th="http://www.thymeleaf.org">-->
-<!--<head>-->
-<!--    <link rel="stylesheet" type="text/css" href="test_design_style.css">-->
-<!--    <meta charset="UTF-8">-->
-<!--    <meta http-equiv="X-UA-Compatible" content="IE=edge">-->
-<!--    <meta name="viewport" content="width=device-width, initial-scale=1.0">-->
-<!--    <title>Профессии</title>-->
-<!--</head>-->
-
-<!--<body>-->
-<!--<header th:insert="blocks/header"></header>-->
-<!--<div class="main">-->
-
-<!--    <a href="/occupation/add" id="add">Добавить профессию</a>-->
-<!--    <div th:each="line : ${occupations}">-->
-<!--        <a th:href="'/occupation' + ${line.occupation_id}">-->
-<!--            <h3 th:text="${line.occupation_name}"></h3>-->
-<!--        </a>-->
-<!--        <p th:text="${line.description}"></p>-->
-<!--    </div>-->
-
-<!--    &lt;!&ndash;    <div class="main">&ndash;&gt;-->
-<!--    <div th:each="line : ${occupations}">-->
-<!--        <a th:href="'/occupation' + ${line.occupation_id}">-->
-<!--            <h3 th:text="${line.occupation_name}"></h3>-->
-<!--        </a>-->
-<!--        &lt;!&ndash;        <p th:text="${line.description}"></p>&ndash;&gt;-->
-<!--        &lt;!&ndash;        </div>&ndash;&gt;-->
-
-<!--    </div>-->
-<!--</div>-->
-<!--</body>-->
-<!--</html>-->

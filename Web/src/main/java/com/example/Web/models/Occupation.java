@@ -1,19 +1,30 @@
 package com.example.Web.models;
 
+import com.example.Web.repo.OccupationRepository;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 
+import java.util.Optional;
+
 @Entity
-public class occupation {
+public class Occupation {
+
 
     @Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int occupation_id;
 
     private String occupation_name, description;
 
+    public Occupation(String occupation_name,String description){
+        this.occupation_name=occupation_name;
+        this.description=description;
+    }
+
+    public Occupation() {
+    }
 
     public int getOccupation_id() {
         return occupation_id;

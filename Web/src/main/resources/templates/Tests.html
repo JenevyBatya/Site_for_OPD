@@ -1,10 +1,32 @@
 <!DOCTYPE html>
-<html lang="en">
+<html xmlns:th="http://www.thymeleaf.org">
 <head>
     <meta charset="UTF-8">
     <title>Тесты</title>
+    <script>
+        function validateForm() {
+            var checkboxes = document.querySelectorAll('input[type=checkbox][name=selectedIds]:checked');
+            if (checkboxes.length > 5) {
+                alert("Вы можете выбрать не более 5 чекбоксов!");
+                return false;
+            }
+            return true;
+        }
+    </script>
 </head>
 <body>
+<header th:insert="blocks/header"></header>
 
+<form th:object="${result}" method="post" action="/tests" onsubmit="return validateForm()">
+    <div th:each="adjective : ${adjectiveList}">
+        <label>
+            <input type="checkbox" th:name="'selectedIds'" th:value="${adjective.adjective_id}"
+                   th:text="${adjective.trait_name}">
+        </label>
+    </div>
+    <button type="submit">Сохранить</button>
+</form>
+</form>
+</div>
 </body>
 </html>
