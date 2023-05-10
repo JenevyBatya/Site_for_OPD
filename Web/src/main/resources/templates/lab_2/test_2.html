@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Sound Quiz</title>
+  <script>
+    function playSound(soundFile) {
+      var audio = new Audio(soundFile);
+      audio.play();
+    }
+
+    function checkAnswer(correctAnswer) {
+      var answer = prompt("Чет или Нечет?");
+      if (answer === correctAnswer) {
+        alert("Правильно!");
+      } else {
+        alert("Неправильно.");
+      }
+    }
+
+    function startQuiz() {
+      playSound("sound1.wav");
+      setTimeout(function() {
+        checkAnswer("Чет");
+        playSound("sound2.wav");
+        setTimeout(function() {
+          checkAnswer("Нечет");
+        }, 2000);
+      }, 2000);
+    }
+  </script>
+</head>
+<body>
+
+<button onclick="startQuiz()">Start Quiz</button>
+</body>
+</html>

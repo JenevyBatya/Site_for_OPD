@@ -3,30 +3,23 @@
 <head>
     <meta charset="UTF-8">
     <title>Тесты</title>
-    <script>
-        function validateForm() {
-            var checkboxes = document.querySelectorAll('input[type=checkbox][name=selectedIds]:checked');
-            if (checkboxes.length > 5) {
-                alert("Вы можете выбрать не более 5 чекбоксов!");
-                return false;
-            }
-            return true;
-        }
-    </script>
+
 </head>
 <body>
-<header th:insert="blocks/header"></header>
+<div th:if="${test}">
+    <div th:replace="~{blocks/header_2 :: header}"></div>
+</div>
+<div th:if="${not test}">
+    <div th:replace="~{blocks/header :: header}"></div>
+</div>
 
-<form th:object="${result}" method="post" action="/tests" onsubmit="return validateForm()">
-    <div th:each="adjective : ${adjectiveList}">
-        <label>
-            <input type="checkbox" th:name="'selectedIds'" th:value="${adjective.adjective_id}"
-                   th:text="${adjective.trait_name}">
-        </label>
+<div class="main">Тесты на этапе разработки<br>
+
+    <div th:each="test : ${tests}">
+        <a th:href="'/tests/test_' + ${test.getTest_id()}">
+            <h3 th:text="${test.getName()}"></h3>
+        </a>
     </div>
-    <button type="submit">Сохранить</button>
-</form>
-</form>
 </div>
 </body>
 </html>

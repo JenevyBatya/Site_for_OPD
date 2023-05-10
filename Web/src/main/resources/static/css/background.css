@@ -1,0 +1,5 @@
+body {
+    /*background-color: aquamarine;*/
+    background-image: url("../img/main.jpg");
+    background-attachment: fixed;
+}

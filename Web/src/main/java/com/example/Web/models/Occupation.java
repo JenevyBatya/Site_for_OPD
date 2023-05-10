@@ -1,13 +1,13 @@
 package com.example.Web.models;
 
 import com.example.Web.repo.OccupationRepository;
-import jakarta.persistence.Entity;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.GenerationType;
-import jakarta.persistence.Id;
+
+import javax.persistence.*;
 
 import java.util.Optional;
+import java.util.Set;
 
+//Таблица всех профессий и описаний к ним
 @Entity
 public class Occupation {
 
@@ -18,6 +18,8 @@ public class Occupation {
 
     private String occupation_name, description;
 
+    @OneToMany(mappedBy = "occupation")
+    private Set<ExpertsOpinion> expertsOpinions;
     public Occupation(String occupation_name,String description){
         this.occupation_name=occupation_name;
         this.description=description;

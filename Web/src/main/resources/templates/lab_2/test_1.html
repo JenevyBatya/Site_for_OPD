@@ -1,0 +1,81 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <title>Тест на реакцию</title>
+    <style>
+        #circle {
+            width: 300px;
+            height: 300px;
+            border-radius: 50%;
+            background-color: white;
+            border: 2px solid black;
+            margin: 50px auto 0;
+        }
+    </style>
+</head>
+<body>
+<div th:replace="~{blocks/Background}"></div>
+<div id="message"></div>
+<div id="circle"></div>
+<div id="time"></div>
+
+<script>
+    var reactionTimes = [];
+    var message;
+    var divMessage = document.getElementById("message");
+    var divTime = document.getElementById("time");
+    var circle = document.getElementById("circle")
+
+    var startTime, reactionTime;
+    var timeToChange = 5000; // 5 секунд
+    setTimeout(function () {
+        timer = setInterval(function () {
+            var randomColor = getRandomColor();
+            circle.style.backgroundColor = randomColor;
+            startTime = new Date().getTime();
+        }, 1000);
+    }, timeToChange);
+    message = "красного";
+    divMessage.innerHTML = "Нажмите Enter, когда круг будет " + message + " цвета";
+    <!-- -->
+    document.addEventListener("keydown", function (event) {
+        if (event.keyCode == 13 && circle.style.backgroundColor === "red" && reactionTimes.length < 3) {
+            reactionTime = new Date().getTime() - startTime;
+            reactionTimes.push(reactionTime);
+
+        } else if (event.keyCode == 13 && circle.style.backgroundColor === "blue" && reactionTimes.length >= 3) {
+            reactionTime = new Date().getTime() - startTime;
+            reactionTimes.push(reactionTime);
+
+
+        }
+
+
+        if (reactionTimes.length < 3) {
+            message = "красного";
+        } else {
+            message = "синего";
+        }
+        divMessage.innerHTML = "Нажмите Enter, когда круг будет " + message + " цвета";
+        //
+        // <!-- -->
+
+        divTime.innerHTML = "Ваше время реакции: " + reactionTime.toString() + " миллисекунд.";
+
+        if (reactionTimes.length === 7) {
+            // Перенаправляем на другую страницу
+            localStorage.setItem('answers', JSON.stringify(reactionTimes));
+            localStorage.setItem('label', JSON.stringify('Время реакции (мс)'))
+            window.location.replace('/tests/test_1/test_result ');
+        }
+        // }
+    });
+
+    function getRandomColor() {
+        var colors = ["red", "blue"];
+        var randomIndex = Math.floor(Math.random() * colors.length);
+        return colors[randomIndex];
+    }
+</script>
+</body>
+</html>

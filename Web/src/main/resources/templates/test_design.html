@@ -10,17 +10,12 @@
 
 </head>
 <body>
-<header th:insert="blocks/header"></header>
-    <div id="autorization">
-        <a href="/login">
-            <button type="submit">Log in</button>
-
-        </a>
-        <form action="/registration" id="reg">
-            <button type="submit">Registration</button>
-
-        </form>
-    </div>
+<div th:if="${test}">
+    <div th:replace="~{blocks/header_2 :: header}"></div>
+</div>
+<div th:if="${not test}">
+    <div th:replace="~{blocks/header :: header}"></div>
+</div>
 <div class="main">
     <pre>
                              ..........／＞　   フ.....................
@@ -34,11 +29,17 @@
     </pre>
 
     <p>Сайт в состоянии разработки, у нас лапки:(</p>
-    <p th:text="'Hello, ' + ${title} + '!'" />
+    <p>
+
+    <form th:action="@{/logout}" method="post">
+        <button type="submit" class="button">Sign out</button>
+    </form>
+    </p>
 
 
 
 </div>
+
 
 
 </body>

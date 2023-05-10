@@ -1,0 +1,93 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Registration</title>
+    <style>
+        .error {
+            border: 1px solid red;
+        }
+    </style>
+</head>
+<body>
+<div th:replace="~{blocks/header_2 :: header}"></div>
+<div class="main">
+    <h1>Registration</h1>
+    <p th:if="${message != null}"> <span th:text="${message}"></span></p>
+    <form action="/registration" method="post">
+        <div>
+            <label> Имя пользователя:
+                <input type="text" name="username" required/>
+            </label>
+        </div>
+        <div>
+            <label> Пароль:
+                <input type="password" name="password" required/>
+            </label>
+        </div>
+        <div>
+            <label> Электронная почта:
+                <input type="email" name="email" class="email-field" required/>
+                <div class="email-error" style="display:none">Please enter a valid email address</div>
+                <div class="email-exists-error error" style="display:none">This email is already registered</div>
+            </label>
+        </div>
+        <div>
+            <label> Пол:
+                <input type="text" name="gender">
+            </label>
+        </div>
+        <div>
+            <input type="submit" value="Registration"/>
+        </div>
+    </form>
+</div>
+<script>
+    const emailField = document.querySelector('.email-field');
+    const emailError = document.querySelector('.email-error');
+    const emailExistsError = document.querySelector('.email-exists-error');
+
+    // Функция, которая отправляет AJAX-запрос на сервер для проверки email на дубликаты
+    const checkEmail = function () {
+        const email = emailField.value;
+        fetch(`/check-email?email=${encodeURIComponent(email)}`)
+            .then(response => response.json())
+            .then(data => {
+                if (data.exists) {
+                    emailField.classList.add('error');
+                    emailExistsError.style.display = 'block';
+                } else {
+                    emailField.classList.remove('error');
+                    emailExistsError.style.display = 'none';
+                }
+            });
+    };
+
+    // Добавляем обработчик события input для поля email, чтобы сообщения об ошибке появлялись немедленно
+    emailField.addEventListener('input', function () {
+        if (emailField.value) {
+            checkEmail();
+        } else {
+            emailField.classList.remove('error');
+            emailExistsError.style.display = 'none';
+        }
+    });
+
+    // Добавляем обработчик события blur для поля email, чтобы отправлять запрос на сервер при потере фокуса
+    emailField.addEventListener('blur', checkEmail);
+
+    const registrationForm = document.querySelector('form');
+
+    registrationForm.addEventListener('submit', function (event) {
+        // Проверяем, что email уже не зарегистрирован в базе данных
+        if (emailExistsError.style.display === 'block') {
+            // Останавливаем отправку формы
+            event.preventDefault();
+        } else {
+            // Если email не существует, отправляем форму
+            registrationForm.submit();
+        }
+    });
+</script>
+</body>
+</html>

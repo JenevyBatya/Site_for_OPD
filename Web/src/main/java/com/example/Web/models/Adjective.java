@@ -1,13 +1,12 @@
 package com.example.Web.models;
 
-import jakarta.persistence.*;
+import javax.persistence.*;
 
 import java.util.ArrayList;
 import java.util.List;
-//import com.chc.other.StringListConverter;
-
+//Список всех прилагательных ПВК
 @Entity
-public class adjective {
+public class Adjective {
     @Transient
     private List<String> chosen = new ArrayList<>();
 
@@ -17,14 +16,14 @@ public class adjective {
     private int adjective_id;
 
     private String trait_name, category;
-    public adjective(String trait_name, String category){
+    public Adjective(String trait_name){
         this.trait_name=trait_name;
-        this.category=category;
+
     }
 
 
 
-    public adjective() {
+    public Adjective() {
 
     }
 

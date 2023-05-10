@@ -1,0 +1,91 @@
+div#header{
+    margin-right: 30px;
+    margin-left: 30px;
+    margin-top: 30px;
+    padding: 50px;
+    background-color: rgb(240, 248, 255, 0.8);
+    font-family: "Agency FB Cyrillic";
+    text-align: center;
+
+
+}
+div.button>a, a#add,a.button{
+    background: linear-gradient(90deg, rgba(131,58,180,1) 0%, rgba(253,29,29,1) 50%, rgba(252,176,69,1) 100%);
+    text-decoration: none;
+    color: black;
+    font-family: "Agency FB Cyrillic";
+    font-size: larger;
+    width: 100px;
+    height: 40px;
+    padding: 10px;
+
+    margin-left: 20px;
+    border: black;
+    border: 2px solid black;
+    font-weight: 500;
+
+}
+div.button>a:hover{
+    opacity: 0.8;
+}
+body{
+    /*background-color: aquamarine;*/
+    background-image: url("../img/main.jpg");
+    background-attachment: fixed;
+}
+div.main{
+    background-color: rgb(240, 248, 255, 0.8);
+    margin: 50px;
+    text-align: center;
+    font-family: "Agency FB Cyrillic";
+    font-size: larger;
+
+}
+div#main{
+    background-color: rgb(240, 248, 255, 0.8);
+    margin: 50px;
+    text-align: center;
+    font-family: "Agency FB Cyrillic";
+    font-size: larger;
+
+}
+div#autorization{
+    text-align: right;
+    letter-spacing: 40px;
+    margin-right: 40px;
+}
+div#autorization>form>button, div.button>form>button{
+    /*background: rgb(131,58,180);*/
+    background: linear-gradient(90deg, rgba(131,58,180,1) 0%, rgba(253,29,29,1) 50%, rgba(252,176,69,1) 100%);
+    /*opacity: 0.8;*/
+    font-family: "Agency FB Cyrillic";
+    font-size: larger;
+    width: 100px;
+    height: 40px;
+}
+button[type="submit"]:hover{
+    opacity: 0.8;
+}
+
+form#reg{
+    margin-top: 10px;
+}
+.checkbox-list {
+    -webkit-column-count: 2; /* for Safari and Chrome */
+    -moz-column-count: 2; /* for Firefox */
+    column-count: 2;
+    text-align: left;
+    margin-left: 10px;
+    margin-right: 10px;
+}
+label.checkbox {
+    display: inline-block;
+}
+div.checkbox{
+    margin-left: 10px;
+    margin-right: 10px;
+}
+canvas#chart, script {
+    width: 10px;
+    height: 10px;
+}

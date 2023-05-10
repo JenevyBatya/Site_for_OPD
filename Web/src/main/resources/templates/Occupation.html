@@ -9,7 +9,12 @@
 </head>
 
 <body>
-<header th:insert="blocks/header"></header>
+<div th:if="${test}">
+    <div th:replace="~{blocks/header_2 :: header}"></div>
+</div>
+<div th:if="${not test}">
+    <div th:replace="~{blocks/header :: header}"></div>
+</div>
 <div class="main">
 
     <a href="/occupation/add" id="add">Добавить профессию</a>
@@ -17,18 +22,11 @@
         <a th:href="'/occupation/' + ${line.occupation_id}">
             <h3 th:text="${line.occupation_name}"></h3>
         </a>
-        <p th:text="${line.description}"></p>
+<!--        <p th:text="${line.description}"></p>-->
     </div>
 
-    <!--    <div class="main">-->
-    <div th:each="line : ${occupations}">
-        <a th:href="'/occupation/' + ${line.occupation_id}">
-            <h3 th:text="${line.occupation_name}"></h3>
-        </a>
-        <!--        <p th:text="${line.description}"></p>-->
-        <!--        </div>-->
 
-    </div>
 </div>
+
 </body>
 </html>

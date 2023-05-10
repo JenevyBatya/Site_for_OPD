@@ -1,9 +1,9 @@
 package com.example.Web.models;
 
-import jakarta.persistence.Entity;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.GenerationType;
-import jakarta.persistence.Id;
+import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
+import javax.persistence.Id;
 
 @Entity
 public class temp {
@@ -12,10 +12,16 @@ public class temp {
     private int id;
 
     private String trait_name;
+    private double res;
 
     public temp(int id, String trait_name) {
         this.id = id;
         this.trait_name = trait_name;
+    }
+
+    public temp(double res) {
+
+        this.res = res;
     }
 
     public temp() {

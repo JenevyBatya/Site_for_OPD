@@ -1,0 +1,22 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Профессии</title>
+</head>
+<body>
+<div class="main">
+
+  <a href="/expert/grading_occupation" id="add">Добавить профессию</a>
+  <div th:each="occupation : ${allOccupations}">
+    <a th:href="'/expert/grading_occupation/' + ${occupation.getOccupation_id()}">
+      <h3 th:text="${occupation.occupation_name}"></h3>
+    </a>
+    <!--        <p th:text="${line.description}"></p>-->
+  </div>
+
+
+</div>
+
+</body>
+</html>

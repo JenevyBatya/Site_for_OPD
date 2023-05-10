@@ -1,0 +1,21 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<body>
+<div th:if="${test}">
+    <div th:replace="~{blocks/header_2 :: header}"></div>
+</div>
+<div th:if="${not test}">
+    <div th:replace="~{blocks/header :: header}"></div>
+</div>
+<div class="main">
+  <p th:text="${occupation.occupation_name}"></p>
+  <p th:text="${occupation.description}"></p>
+
+</div>
+
+</body>
+</html>
