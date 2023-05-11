@@ -3,35 +3,35 @@ package com.example.Web.models;
 import javax.persistence.*;
 //пройденные тесты пользователем
 @Entity
-//@Table(name = "finishedUserTests")
-public class FinishedUserTests {
+
+public class FinishedSessionUserTest {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private int sessionId;
+    private int id;
 
     @ManyToOne
-    @JoinColumn(name = "userId")
+    @JoinColumn(referencedColumnName = "id")
     private User user;
 
     @ManyToOne
-    @JoinColumn(name = "testid")
+    @JoinColumn(referencedColumnName = "id")
     private Tests tests;
 
-    public FinishedUserTests(User user, Tests tests) {
+    public FinishedSessionUserTest(User user, Tests tests) {
         this.user = user;
         this.tests = tests;
     }
 
-    public FinishedUserTests() {
+    public FinishedSessionUserTest() {
 
     }
 
-    public int getSession_id() {
-        return sessionId;
+    public int getId() {
+        return id;
     }
 
-    public void setSession_id(int session_id) {
-        this.sessionId = session_id;
+    public void setId(int id) {
+        this.id = id;
     }
 
     public User getUser() {

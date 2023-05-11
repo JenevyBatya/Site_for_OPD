@@ -16,8 +16,8 @@
 <div class="main">
     <p>
     <div class="button">
-        Welcome back, sir <span th:text="${user.getusername()}"></span><br>
-        Your email address is <span th:text="${user.getpassword()}"></span><br>
+        Welcome back, sir <span th:text="${user.getUsername()}"></span><br>
+        Your email address is <span th:text="${user.getPassword()}"></span><br>
         <a href="/expert">Режим эксперта</a>
         <form th:action="@{/logout}" method="post">
             <button type="submit" class="button">Sign out</button>

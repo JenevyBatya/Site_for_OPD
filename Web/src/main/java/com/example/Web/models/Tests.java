@@ -5,22 +5,21 @@ import java.util.Set;
 
 //всевозможные тесты
 @Entity
-//@Table(name = "Tests")
 public class Tests {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private int testid;
+    private int id;
 
     private String name, description;
     @OneToMany(mappedBy = "tests")
     private Set<AvailableTests> availableTestsSet;
 
-    public int getTest_id() {
-        return testid;
+    public int getId() {
+        return id;
     }
 
-    public void setTest_id(int test_id) {
-        this.testid = test_id;
+    public void setId(int id) {
+        this.id = id;
     }
 
     public String getName() {

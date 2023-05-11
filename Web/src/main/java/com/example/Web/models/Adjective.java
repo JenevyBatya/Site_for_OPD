@@ -9,20 +9,17 @@ import java.util.List;
 @Entity
 //@Table(name = "adjective")
 public class Adjective {
-    @Transient
-    private List<String> chosen = new ArrayList<>();
-
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int id;
-    @Column(name = "traitName")
-    private String traitName;
+    @Column
+    private String name;
     @Column(name = "category")
     private String category;
 
-    public Adjective(String traitName) {
-        this.traitName = traitName;
+    public Adjective(String trait_name) {
+        this.name = trait_name;
 
     }
 
@@ -31,20 +28,20 @@ public class Adjective {
 
     }
 
-    public int getAdjective_id() {
+    public int getId() {
         return id;
     }
 
-    public void setAdjective_id(int adjective_id) {
-        this.id = adjective_id;
+    public void setId(int id) {
+        this.id = id;
     }
 
-    public String gettraitName() {
-        return traitName;
+    public String getName() {
+        return name;
     }
 
-    public void settraitName(String traitName) {
-        this.traitName = traitName;
+    public void setName(String name) {
+        this.name = name;
     }
 
     public String getCategory() {

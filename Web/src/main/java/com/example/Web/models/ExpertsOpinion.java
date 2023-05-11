@@ -10,20 +10,24 @@ public class ExpertsOpinion {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int id;
     @ManyToOne
-    @JoinColumn(name = "occupationId")
+    @JoinColumn(referencedColumnName = "id")
     private Occupation occupation;
 
     @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "userId")
+    @JoinColumn(referencedColumnName = "id")
     private User user;
     @ManyToOne
-    @JoinColumn(name = "adjectiveId")
+    @JoinColumn(referencedColumnName = "id")
     private Adjective adjective;
 
     public ExpertsOpinion(User user, Occupation occupation, Adjective adjective) {
         this.occupation = occupation;
         this.user = user;
         this.adjective = adjective;
+    }
+
+    public ExpertsOpinion() {
+
     }
 
     public int getId() {
@@ -56,9 +60,5 @@ public class ExpertsOpinion {
 
     public void setAdjective(Adjective adjective) {
         this.adjective = adjective;
-    }
-
-    public ExpertsOpinion() {
-
     }
 }

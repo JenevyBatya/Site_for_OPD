@@ -20,11 +20,13 @@
 
     <a href="/occupation/add" id="add">Добавить профессию</a>
     <div th:each="line : ${occupations}">
-        <a th:href="'/occupation/' + ${line.occupation_id}">
-            <h3 th:text="${line.occupationName}"></h3>
-        </a>
-<!--        <p th:text="${line.description}"></p>-->
+        <a th:href="'/occupation/' + ${line.getId()}" th:text="${line.getName()}" style="display: inline-block;"></a>
+        <div style="display: inline-block;">
+            <span th:if="${ratedOccupations.contains(line.getId())}" th:text="'Оценено экспертами'"></span>
+            <span th:unless="${ratedOccupations.contains(line.getId())}" th:text="'В процессе проверки экспертами'"></span>
+        </div>
     </div>
+
 
 
 </div>

@@ -9,10 +9,34 @@ public class AvailableTests {
     private int id;
 
     @ManyToOne
-    @JoinColumn(name = "userId")
+    @JoinColumn(referencedColumnName = "id")
     private User user;
 
     @ManyToOne
-    @JoinColumn(name = "testId")
+    @JoinColumn(referencedColumnName = "id")
     private Tests tests;
+
+    public int getId() {
+        return id;
+    }
+
+    public void setId(int id) {
+        this.id = id;
+    }
+
+    public User getUser() {
+        return user;
+    }
+
+    public void setUser(User user) {
+        this.user = user;
+    }
+
+    public Tests getTests() {
+        return tests;
+    }
+
+    public void setTests(Tests tests) {
+        this.tests = tests;
+    }
 }

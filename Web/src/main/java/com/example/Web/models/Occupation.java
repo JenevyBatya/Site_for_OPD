@@ -16,32 +16,32 @@ public class Occupation {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int id;
 
-    private String occupationName, description;
+    private String name, description;
 
     @OneToMany(mappedBy = "occupation")
     private Set<ExpertsOpinion> expertsOpinions;
     public Occupation(String occupation_name,String description){
-        this.occupationName=occupation_name;
+        this.name=occupation_name;
         this.description=description;
     }
 
     public Occupation() {
     }
 
-    public int getOccupation_id() {
+    public int getId() {
         return id;
     }
 
-    public void setOccupation_id(int occupation_id) {
-        this.id = occupation_id;
+    public void setId(int id) {
+        this.id = id;
     }
 
-    public String getOccupation_name() {
-        return occupationName;
+    public String getName() {
+        return name;
     }
 
-    public void setOccupation_name(String occupation_name) {
-        this.occupationName = occupation_name;
+    public void setName(String name) {
+        this.name = name;
     }
 
     public String getDescription() {
@@ -50,5 +50,13 @@ public class Occupation {
 
     public void setDescription(String description) {
         this.description = description;
+    }
+
+    public Set<ExpertsOpinion> getExpertsOpinions() {
+        return expertsOpinions;
+    }
+
+    public void setExpertsOpinions(Set<ExpertsOpinion> expertsOpinions) {
+        this.expertsOpinions = expertsOpinions;
     }
 }

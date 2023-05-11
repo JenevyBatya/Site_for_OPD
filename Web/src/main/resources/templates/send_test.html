@@ -9,7 +9,7 @@
 <div class="main">
     <div th:each="user : ${allUsers}">
         <a th:href="'/expert/send_test/user_'+${user.getUser_id()}">
-            <h3 th:text="${user.getusername()}+' '+ ${user.getEmail()}+' '+${user.getAge()}+' '+${user.getGender()}"></h3>
+            <h3 th:text="${user.getUsername()}+' '+ ${user.getEmail()}+' '+${user.getAge()}+' '+${user.getGender()}"></h3>
         </a>
     </div>
 </div>

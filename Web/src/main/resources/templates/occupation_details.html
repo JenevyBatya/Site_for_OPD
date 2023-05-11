@@ -13,9 +13,17 @@
     <div th:replace="~{blocks/header :: header}"></div>
 </div>
 <div class="main">
-  <p th:text="${occupation.occupation_name}"></p>
-  <p th:text="${occupation.description}"></p>
+    <h2 th:text="${occupation.getName()}"></h2>
+    <h3 th:text="${occupation.getDescription()}"></h3>
 
+    <div class="check" th:if="${message != null}">
+        <h3 th:text="${message}"></h3>
+    </div>
+    <input type="hidden" id="count" th:data-value="${allAnswersCount}"/>
+
+    <div th:each="adj : ${adjectiveIds}">
+        <h3 th:text="${adj.getName() + ' ' + adj.getCount()*100/allAnswersCount + '%'}"></h3>
+    </div>
 </div>
 
 </body>

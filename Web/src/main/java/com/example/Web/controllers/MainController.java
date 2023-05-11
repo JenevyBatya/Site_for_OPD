@@ -2,6 +2,7 @@ package com.example.Web.controllers;
 
 //import com.example.Web.models.ChosenAdj;
 
+import com.example.Web.AdjectiveCount;
 import com.example.Web.models.*;
 //import com.example.Web.repo.AdjectiveRepository;
 //import com.example.Web.models.Adjective;
@@ -17,6 +18,9 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.jdbc.core.JdbcTemplate;
 
+import javax.persistence.EntityManager;
+import javax.persistence.PersistenceContext;
+import javax.persistence.Query;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
@@ -24,12 +28,14 @@ import java.util.Optional;
 @Controller
 public class MainController {
     JdbcTemplate jdbcTemplate;
+    @PersistenceContext
+    EntityManager entityManager;
 
     @Autowired
     private OccupationRepository occupationRepository;
     @Autowired
     private AdjectiveRepository adjectiveRepository;
-//    @Autowired
+    //    @Autowired
 //    private tempRepj tempRepj;
     @Autowired
     private UserRepo userRepo;
@@ -48,9 +54,10 @@ public class MainController {
 
     @GetMapping("/occupation")
     public String occupation(Model model, Authentication authentication) {
-//        List<String> values = jdbcTemplate.queryForList(
-//                "SELECT DISTINCT column FROM table", String.class);
-
+        String forChecked = "SELECT DISTINCT eo.occupation.id from ExpertsOpinion eo";
+        Query query = entityManager.createQuery(forChecked, Integer.class);
+        List<Integer> ratedOccupations = query.getResultList();
+        model.addAttribute("ratedOccupations", ratedOccupations);
         model.addAttribute("title", "Main page");
         Iterable<Occupation> occupations = occupationRepository.findAll();
         model.addAttribute("occupations", occupations);
@@ -139,7 +146,7 @@ public class MainController {
         User user = userRepo.findByEmail(email);
 
         model.addAttribute("user", user);
-        model.addAttribute("username", user.getusername());
+        model.addAttribute("username", user.getUsername());
         boolean test = authentication != null && authentication.isAuthenticated();
         model.addAttribute("test", test);
 
@@ -149,18 +156,30 @@ public class MainController {
 
     @GetMapping("/occupation/{id}")
     public String details(Model model, @PathVariable(value = "id") int id, Authentication authentication) {
-        Optional<Occupation> optionalOccupation = occupationRepository.findById(id);
-        if (optionalOccupation.isPresent()) {
-            Occupation occupation = optionalOccupation.get();
-            // теперь у вас есть объект Occupation, с которым можно работать
-            model.addAttribute("occupation", occupation);
-            boolean test = authentication != null && authentication.isAuthenticated();
-            model.addAttribute("test", test);
-            return "occupation_details";
-        } else {
-            // если объект не найден, верните сообщение об ошибке или перенаправление на другую страницу
-            return "not_found_error";
+        Occupation occupation = occupationRepository.findById(id).get();
+        model.addAttribute("occupation", occupation);
+        boolean test = authentication != null && authentication.isAuthenticated();
+        model.addAttribute("test", test);
+        String forAdjectiveIds = "SELECT new com.example.Web.AdjectiveCount(adj.name, COUNT(eo.adjective.id)) " +
+                "FROM ExpertsOpinion eo inner join Adjective adj on eo.adjective.id=adj.id " +
+                "WHERE eo.occupation.id = :occupationId " +
+                "GROUP BY eo.adjective.id " +
+                "ORDER BY COUNT(eo.adjective.id) DESC";
+        String forAllAnswers = "SELECT COUNT(*) FROM ExpertsOpinion eo WHERE eo.occupation.id = :occupationId";
+        Long allAnswersCount = entityManager.createQuery(forAllAnswers, Long.class)
+                .setParameter("occupationId", id)
+                .getSingleResult();
+        List<AdjectiveCount> adjectiveIds = entityManager.createQuery(forAdjectiveIds, AdjectiveCount.class)
+                .setParameter("occupationId", id)
+                .setMaxResults(10)
+                .getResultList();
+        model.addAttribute("adjectiveIds", adjectiveIds);
+        model.addAttribute("allAnswersCount", allAnswersCount);
+        if (allAnswersCount == 0) {
+            model.addAttribute("message", "Данную профессию еще не оценил ни один эксперт. Станьте первым!");
         }
+        return "occupation_details";
+
     }
 
 //    @GetMapping("/test_result")

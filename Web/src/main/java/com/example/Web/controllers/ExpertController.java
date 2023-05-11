@@ -17,9 +17,9 @@ import org.springframework.web.bind.annotation.PostMapping;
 
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
+import javax.persistence.Query;
 import java.util.List;
-import java.util.Optional;
-import java.util.stream.Collectors;
+
 
 @Controller
 public class ExpertController {
@@ -49,8 +49,12 @@ public class ExpertController {
 
     @GetMapping("/expert/grading_occupation")
     public String show(Model model,Authentication authentication) {
-        int userId = userRepo.findByEmail(authentication.getName()).getUser_id();
-        String forChecked = "SELECT ";
+        int userId = userRepo.findByEmail(authentication.getName()).getId();
+        String forChecked = "SELECT eo.occupation.id from ExpertsOpinion eo where eo.user.id = :userId";
+        Query query = entityManager.createQuery(forChecked, Integer.class);
+        query.setParameter("userId", userId);
+        List<Integer> ratedOccupations = query.getResultList();
+        model.addAttribute("ratedOccupations",ratedOccupations);
         Iterable<Occupation> allOccupations = occupationRepository.findAll();
         model.addAttribute("allOccupations", allOccupations);
         return "occupations";
@@ -63,7 +67,7 @@ public class ExpertController {
         Iterable<Adjective> adjectiveList = adjectiveRepository.findAll();
         model.addAttribute("adjectiveList", adjectiveList);
         model.addAttribute("result", new result());
-        String forAdjectiveIds = "SELECT new com.example.Web.AdjectiveCount(adj.traitName, COUNT(eo.adjective.id)) " +
+        String forAdjectiveIds = "SELECT new com.example.Web.AdjectiveCount(adj.name, COUNT(eo.adjective.id)) " +
                 "FROM ExpertsOpinion eo inner join Adjective adj on eo.adjective.id=adj.id " +
                 "WHERE eo.occupation.id = :occupationId " +
                 "GROUP BY eo.adjective.id " +

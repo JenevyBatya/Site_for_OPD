@@ -17,7 +17,7 @@
 <div class="main">Тесты на этапе разработки<br>
 
     <div th:each="test : ${tests}">
-        <a th:href="'/tests/test_' + ${test.getTest_id()}">
+        <a th:href="'/tests/test_' + ${test.getId()}">
             <h3 th:text="${test.getName()}"></h3>
         </a>
     </div>

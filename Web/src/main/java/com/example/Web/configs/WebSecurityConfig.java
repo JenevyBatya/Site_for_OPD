@@ -45,7 +45,7 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
                 .dataSource(dataSource)
                 .passwordEncoder(NoOpPasswordEncoder.getInstance())
                 .usersByUsernameQuery("select email, password, 'true' from user where email=?")
-                .authoritiesByUsernameQuery("select email, role from user inner join user_role on user.userId=user_role.userId where email=?");
+                .authoritiesByUsernameQuery("select email, role from user inner join user_role on user.id=user_role.user_id where email=?");
 }
     @Override
     public void configure(WebSecurity web) throws Exception {

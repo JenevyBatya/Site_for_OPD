@@ -1,20 +1,20 @@
 package com.example.Web;
 
 public class AdjectiveCount {
-    private String traitName;
+    private String name;
     private Long count;
 
-    public AdjectiveCount(String traitName, Long count) {
-        this.traitName = traitName;
+    public AdjectiveCount(String name, Long count) {
+        this.name = name;
         this.count = count;
     }
 
-    public String gettraitName() {
-        return traitName;
+    public String getName() {
+        return name;
     }
 
-    public void settraitName(String traitName) {
-        this.traitName = traitName;
+    public void setName(String name) {
+        this.name = name;
     }
 
     public Long getCount() {

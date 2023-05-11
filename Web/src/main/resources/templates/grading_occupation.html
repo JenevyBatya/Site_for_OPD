@@ -21,7 +21,7 @@
 <body>
 <div th:replace="~{blocks/header_2 :: header}"></div>
 <div class="main">
-    <h2 th:text="${occupation.occupation_name}"></h2>
+    <h2 th:text="${occupation.getName()}"></h2>
     <h3 th:text="${occupation.getDescription()}"></h3>
 
     <div class="check" th:if="${message != null}">
@@ -30,19 +30,19 @@
     <input type="hidden" id="count" th:data-value="${allAnswersCount}"/>
 
     <div th:each="adj : ${adjectiveIds}">
-        <h3 th:text="${adj.getTrait_name() + ' ' + adj.getCount()*100/allAnswersCount + '%'}"></h3>
+        <h3 th:text="${adj.getName() + ' ' + adj.getCount()*100/allAnswersCount + '%'}"></h3>
     </div>
 
 
-    <form th:action="'/expert/grading_occupation/'+${occupation.getOccupation_id()}" method="post"
+    <form th:action="'/expert/grading_occupation/'+${occupation.getId()}" method="post"
           onsubmit="return validateForm()" name="form" th:object="${result}">
         <div class="checkbox-list">
             <div class="col-md-6">
                 <div th:each="adjective, iterStat : ${adjectiveList}"
                      th:if="${iterStat.index < #lists.size(adjectiveList) / 2}">
                     <label>
-                        <input type="checkbox" th:name="'selectedIds'" th:value="${adjective.adjective_id}"
-                               th:text="${adjective.gettraitName()}">
+                        <input type="checkbox" th:name="'selectedIds'" th:value="${adjective.getId()}"
+                               th:text="${adjective.getName()}">
                     </label>
                 </div>
             </div>
@@ -50,8 +50,8 @@
                 <div th:each="adjective, iterStat : ${adjectiveList}"
                      th:if="${iterStat.index >= #lists.size(adjectiveList) / 2}">
                     <label>
-                        <input type="checkbox" th:name="'selectedIds'" th:value="${adjective.adjective_id}"
-                               th:text="${adjective.gettraitName()}">
+                        <input type="checkbox" th:name="'selectedIds'" th:value="${adjective.getId()}"
+                               th:text="${adjective.getName()}">
                     </label>
                 </div>
             </div>

@@ -28,7 +28,7 @@ public class TestsController {
 //    @Autowired
 //    tempRepj tempRepj;
     @Autowired
-    FinishedUserTestsRepo finishedUserTestsRepo;
+    FinishedSessionUserTestRepo finishedSessionUserTestRepo;
     @Autowired
     UserRepo userRepo;
     @Autowired
@@ -60,12 +60,12 @@ public class TestsController {
         ObjectMapper mapper = new ObjectMapper();
         List<Double> answers = mapper.readValue(answersSt, new TypeReference<List<Double>>() {
         });
-        FinishedUserTests finishedUserTests = new FinishedUserTests(userRepo.findByEmail(authentication.getName()), testsRepo.findByTestid(Integer.parseInt(text)));
-        finishedUserTestsRepo.save(finishedUserTests);
-        int session_id = finishedUserTests.getSession_id();
+        FinishedSessionUserTest finishedSessionUserTest = new FinishedSessionUserTest(userRepo.findByEmail(authentication.getName()), testsRepo.findById(Integer.parseInt(text)).get());
+        finishedSessionUserTestRepo.save(finishedSessionUserTest);
+        int session_id = finishedSessionUserTest.getId();
 
         for (Double res : answers) {
-            allTestsResultRepo.save(new AllTestsResult(finishedUserTests,res));
+            allTestsResultRepo.save(new AllTestsResult(finishedSessionUserTest,res));
         }
         return "redirect:/occupation";
     }

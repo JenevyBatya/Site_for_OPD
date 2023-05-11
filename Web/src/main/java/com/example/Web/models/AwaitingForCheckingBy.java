@@ -3,19 +3,18 @@ package com.example.Web.models;
 import javax.persistence.*;
 
 @Entity
-//@Table(name="awaiting_for_checking_by")
 public class AwaitingForCheckingBy {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int id;
     @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "userId")
+    @JoinColumn(referencedColumnName = "id")
     private User user;
     @ManyToOne
-    @JoinColumn(name = "adjectiveId")
+    @JoinColumn(referencedColumnName = "id")
     private Adjective adjective;
     @ManyToOne
-    @JoinColumn(name = "occupationId")
+    @JoinColumn(referencedColumnName = "id")
     private Occupation occupation;
 
 

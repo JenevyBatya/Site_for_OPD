@@ -70,6 +70,7 @@ public class LoginController {
 
         // Сохранение пользователя в базе данных
         userRepo.save(userForm);
+        System.out.println(userForm);
         userRoleRepo.save(new UserRole(userForm,Role.USER));
 
         // Перенаправление на страницу успешной регистрации
