@@ -4,7 +4,7 @@ import javax.persistence.*;
 
 
 @Entity
-@Table(name = "user_role")
+//@Table(name = "user_role")
 public class UserRole {
 
     @Id
@@ -12,15 +12,15 @@ public class UserRole {
     private Long id;
 
     @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "user_id")
-    private User user_id;
+    @JoinColumn(name = "userId")
+    private User userId;
 
     @Enumerated(EnumType.STRING)
     @Column(length = 20)
     private Role role;
 
     public UserRole(User user_id, Role role) {
-        this.user_id = user_id;
+        this.userId = user_id;
         this.role = role;
     }
 

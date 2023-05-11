@@ -1,5 +1,6 @@
 package com.example.Web.controllers;
 
+import com.example.Web.AdjectiveCount;
 import com.example.Web.models.*;
 import com.example.Web.repo.AdjectiveRepository;
 import com.example.Web.repo.ExpertsOpinionRepo;
@@ -14,10 +15,17 @@ import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 
+import javax.persistence.EntityManager;
+import javax.persistence.PersistenceContext;
+import java.util.List;
 import java.util.Optional;
+import java.util.stream.Collectors;
 
 @Controller
 public class ExpertController {
+
+    @PersistenceContext
+    private EntityManager entityManager;
     @Autowired
     UserRepo userRepo;
     @Autowired
@@ -40,7 +48,9 @@ public class ExpertController {
     }
 
     @GetMapping("/expert/grading_occupation")
-    public String show(Model model) {
+    public String show(Model model,Authentication authentication) {
+        int userId = userRepo.findByEmail(authentication.getName()).getUser_id();
+        String forChecked = "SELECT ";
         Iterable<Occupation> allOccupations = occupationRepository.findAll();
         model.addAttribute("allOccupations", allOccupations);
         return "occupations";
@@ -53,6 +63,24 @@ public class ExpertController {
         Iterable<Adjective> adjectiveList = adjectiveRepository.findAll();
         model.addAttribute("adjectiveList", adjectiveList);
         model.addAttribute("result", new result());
+        String forAdjectiveIds = "SELECT new com.example.Web.AdjectiveCount(adj.traitName, COUNT(eo.adjective.id)) " +
+                "FROM ExpertsOpinion eo inner join Adjective adj on eo.adjective.id=adj.id " +
+                "WHERE eo.occupation.id = :occupationId " +
+                "GROUP BY eo.adjective.id " +
+                "ORDER BY COUNT(eo.adjective.id) DESC";
+        String forAllAnswers = "SELECT COUNT(*) FROM ExpertsOpinion eo WHERE eo.occupation.id = :occupationId";
+        Long allAnswersCount = entityManager.createQuery(forAllAnswers, Long.class)
+                .setParameter("occupationId", id)
+                .getSingleResult();
+        List<AdjectiveCount> adjectiveIds = entityManager.createQuery(forAdjectiveIds, AdjectiveCount.class)
+                .setParameter("occupationId", id)
+                .setMaxResults(10)
+                .getResultList();
+        model.addAttribute("adjectiveIds", adjectiveIds);
+        model.addAttribute("allAnswersCount", allAnswersCount);
+        if (allAnswersCount == 0){
+            model.addAttribute("message","Данную профессию еще не оценил ни один эксперт. Станьте первым!");
+        }
         return "grading_occupation";
     }
 

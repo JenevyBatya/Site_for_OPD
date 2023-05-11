@@ -39,24 +39,7 @@
         <form action="'/expert/grading_occupation/" method="post" onsubmit="return validateForm()" name="form" th:object="${result}">
             <input type="text" name="occupation_name" placeholder="Введите название профессии" class="form-control"><br>
             <input type="text" name="description" placeholder="Введите описание профессии"><br>
-<!--            <div class="checkbox-list">-->
-<!--                <div class="col-md-6">-->
-<!--                    <div th:each="adjective, iterStat : ${adjectiveList}" th:if="${iterStat.index < #lists.size(adjectiveList) / 2}">-->
-<!--                        <label>-->
-<!--                            <input type="checkbox" th:name="'selectedIds'" th:value="${adjective.adjective_id}"-->
-<!--                                   th:text="${adjective.trait_name}">-->
-<!--                        </label>-->
-<!--                    </div>-->
-<!--                </div>-->
-<!--                <div class="col-md-6">-->
-<!--                    <div th:each="adjective, iterStat : ${adjectiveList}" th:if="${iterStat.index >= #lists.size(adjectiveList) / 2}">-->
-<!--                        <label>-->
-<!--                            <input type="checkbox" th:name="'selectedIds'" th:value="${adjective.adjective_id}"-->
-<!--                                   th:text="${adjective.trait_name}">-->
-<!--                        </label>-->
-<!--                    </div>-->
-<!--                </div>-->
-<!--            </div>-->
+
             <button type="submit" class="bt bt-success">Добавить профессиию</button>
         </form>
     </div>

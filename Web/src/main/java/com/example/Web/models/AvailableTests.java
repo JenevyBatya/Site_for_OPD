@@ -9,10 +9,10 @@ public class AvailableTests {
     private int id;
 
     @ManyToOne
-    @JoinColumn(name = "user_id")
+    @JoinColumn(name = "userId")
     private User user;
 
     @ManyToOne
-    @JoinColumn(name = "testid")
+    @JoinColumn(name = "testId")
     private Tests tests;
 }

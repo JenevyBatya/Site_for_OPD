@@ -14,14 +14,14 @@ public class Occupation {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private int occupation_id;
+    private int id;
 
-    private String occupation_name, description;
+    private String occupationName, description;
 
     @OneToMany(mappedBy = "occupation")
     private Set<ExpertsOpinion> expertsOpinions;
     public Occupation(String occupation_name,String description){
-        this.occupation_name=occupation_name;
+        this.occupationName=occupation_name;
         this.description=description;
     }
 
@@ -29,19 +29,19 @@ public class Occupation {
     }
 
     public int getOccupation_id() {
-        return occupation_id;
+        return id;
     }
 
     public void setOccupation_id(int occupation_id) {
-        this.occupation_id = occupation_id;
+        this.id = occupation_id;
     }
 
     public String getOccupation_name() {
-        return occupation_name;
+        return occupationName;
     }
 
     public void setOccupation_name(String occupation_name) {
-        this.occupation_name = occupation_name;
+        this.occupationName = occupation_name;
     }
 
     public String getDescription() {

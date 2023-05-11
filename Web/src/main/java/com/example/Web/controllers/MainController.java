@@ -29,8 +29,8 @@ public class MainController {
     private OccupationRepository occupationRepository;
     @Autowired
     private AdjectiveRepository adjectiveRepository;
-    @Autowired
-    private tempRepj tempRepj;
+//    @Autowired
+//    private tempRepj tempRepj;
     @Autowired
     private UserRepo userRepo;
     @Autowired

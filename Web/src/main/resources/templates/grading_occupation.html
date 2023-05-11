@@ -10,18 +10,30 @@
             if (checkboxes.length > 5) {
                 alert("Вы можете выбрать не более 5 чекбоксов!");
                 return false;
-            }else if(checkboxes.length < 1){
+            } else if (checkboxes.length < 1) {
                 alert("Вы должны выбрать хотя бы один пункт");
                 return false;
             }
         }
+
     </script>
 </head>
 <body>
-<div th:replace="~{blocks/header :: header}"></div>
+<div th:replace="~{blocks/header_2 :: header}"></div>
 <div class="main">
     <h2 th:text="${occupation.occupation_name}"></h2>
     <h3 th:text="${occupation.getDescription()}"></h3>
+
+    <div class="check" th:if="${message != null}">
+        <h3 th:text="${message}"></h3>
+    </div>
+    <input type="hidden" id="count" th:data-value="${allAnswersCount}"/>
+
+    <div th:each="adj : ${adjectiveIds}">
+        <h3 th:text="${adj.getTrait_name() + ' ' + adj.getCount()*100/allAnswersCount + '%'}"></h3>
+    </div>
+
+
     <form th:action="'/expert/grading_occupation/'+${occupation.getOccupation_id()}" method="post"
           onsubmit="return validateForm()" name="form" th:object="${result}">
         <div class="checkbox-list">
@@ -30,7 +42,7 @@
                      th:if="${iterStat.index < #lists.size(adjectiveList) / 2}">
                     <label>
                         <input type="checkbox" th:name="'selectedIds'" th:value="${adjective.adjective_id}"
-                               th:text="${adjective.trait_name}">
+                               th:text="${adjective.gettraitName()}">
                     </label>
                 </div>
             </div>
@@ -39,7 +51,7 @@
                      th:if="${iterStat.index >= #lists.size(adjectiveList) / 2}">
                     <label>
                         <input type="checkbox" th:name="'selectedIds'" th:value="${adjective.adjective_id}"
-                               th:text="${adjective.trait_name}">
+                               th:text="${adjective.gettraitName()}">
                     </label>
                 </div>
             </div>

@@ -5,7 +5,7 @@ import java.util.Set;
 
 //всевозможные тесты
 @Entity
-@Table(name = "Tests")
+//@Table(name = "Tests")
 public class Tests {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)

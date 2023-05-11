@@ -1,14 +1,13 @@
 package com.example.Web.controllers;
 
-import com.example.Web.models.AllTestsResult;
-import com.example.Web.models.FinishedUserTests;
-import com.example.Web.models.Tests;
-import com.example.Web.models.temp;
+import com.example.Web.models.*;
 import com.example.Web.repo.*;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.jdbc.core.BeanPropertyRowMapper;
+import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.security.core.Authentication;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -23,9 +22,11 @@ import java.util.List;
 @Controller
 public class TestsController {
     @Autowired
-    TestsRepo testsRepo;
+    private JdbcTemplate jdbcTemplate;
     @Autowired
-    tempRepj tempRepj;
+    TestsRepo testsRepo;
+//    @Autowired
+//    tempRepj tempRepj;
     @Autowired
     FinishedUserTestsRepo finishedUserTestsRepo;
     @Autowired
@@ -35,6 +36,8 @@ public class TestsController {
 
     @GetMapping("/tests")
     public String tests(Model model, Authentication authentication) {
+//        String sql = "SELECT trait_name FROM adjective";
+//        List<String> items = jdbcTemplate.queryForList(sql,String.class);
         Iterable<Tests> tests = testsRepo.findAll();
         model.addAttribute("tests", tests);
         boolean test = authentication != null && authentication.isAuthenticated();

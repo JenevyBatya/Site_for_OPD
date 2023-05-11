@@ -6,11 +6,12 @@
     <title>Профессии</title>
 </head>
 <body>
+<div th:replace="~{blocks/header_2 :: header}"></div>
 <div class="main">
     <div th:each="occupation : ${allOccupations}">
 
         <a th:href="'/expert/grading_occupation/' + ${occupation.getOccupation_id()}">
-            <h3 th:text="${occupation.occupation_name}"></h3>
+            <h3 th:text="${occupation.getOccupation_name()}"></h3>
         </a>
     </div>
 </div>

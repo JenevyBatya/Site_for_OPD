@@ -9,8 +9,10 @@ import java.util.Set;
 public class User {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private int user_id;
+    private int userId;
+    @Column
     private String username, password,email,gender;
+    @Column
     private int age;
 
     public String getUsername() {
@@ -62,7 +64,7 @@ public class User {
     }
 
     private boolean active = true;
-    @OneToMany(mappedBy = "user_id")
+    @OneToMany(mappedBy = "userId")
     private Set<UserRole> userRoles;
     @OneToMany(mappedBy = "user")
     private Set<AvailableTests> availableTestsSet;
@@ -78,11 +80,11 @@ public class User {
     }
 
     public int getUser_id() {
-        return user_id;
+        return userId;
     }
 
     public void setUser_id(int user_id) {
-        this.user_id = user_id;
+        this.userId = user_id;
     }
 
     public String getusername() {

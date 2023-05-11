@@ -4,8 +4,10 @@ import javax.persistence.*;
 
 import java.util.ArrayList;
 import java.util.List;
+
 //Список всех прилагательных ПВК
 @Entity
+//@Table(name = "adjective")
 public class Adjective {
     @Transient
     private List<String> chosen = new ArrayList<>();
@@ -13,14 +15,16 @@ public class Adjective {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private int adjective_id;
+    private int id;
+    @Column(name = "traitName")
+    private String traitName;
+    @Column(name = "category")
+    private String category;
 
-    private String trait_name, category;
-    public Adjective(String trait_name){
-        this.trait_name=trait_name;
+    public Adjective(String traitName) {
+        this.traitName = traitName;
 
     }
-
 
 
     public Adjective() {
@@ -28,19 +32,19 @@ public class Adjective {
     }
 
     public int getAdjective_id() {
-        return adjective_id;
+        return id;
     }
 
     public void setAdjective_id(int adjective_id) {
-        this.adjective_id = adjective_id;
+        this.id = adjective_id;
     }
 
-    public String getTrait_name() {
-        return trait_name;
+    public String gettraitName() {
+        return traitName;
     }
 
-    public void setTrait_name(String trait_name) {
-        this.trait_name = trait_name;
+    public void settraitName(String traitName) {
+        this.traitName = traitName;
     }
 
     public String getCategory() {

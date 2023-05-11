@@ -3,14 +3,14 @@ package com.example.Web.models;
 import javax.persistence.*;
 //пройденные тесты пользователем
 @Entity
-@Table(name = "finishedUserTests")
+//@Table(name = "finishedUserTests")
 public class FinishedUserTests {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private int session_id;
+    private int sessionId;
 
     @ManyToOne
-    @JoinColumn(name = "user_id")
+    @JoinColumn(name = "userId")
     private User user;
 
     @ManyToOne
@@ -27,11 +27,11 @@ public class FinishedUserTests {
     }
 
     public int getSession_id() {
-        return session_id;
+        return sessionId;
     }
 
     public void setSession_id(int session_id) {
-        this.session_id = session_id;
+        this.sessionId = session_id;
     }
 
     public User getUser() {
