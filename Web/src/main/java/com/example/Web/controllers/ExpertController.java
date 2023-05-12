@@ -40,11 +40,14 @@ public class ExpertController {
         return "expertsMode";
     }
 
-    @GetMapping("/expert/send_test")
+    @GetMapping("/expert/user_list")
     public String sendTest(Model model) {
+        String onlyUserS = "select new User(u.id, u.username,u.email,u.gender,u.age) from User u inner join";
+        List<User> onlyUser = entityManager.createQuery(onlyUserS, User.class)
+                .getResultList();
         Iterable<User> allUsers = userRepo.findAll();
         model.addAttribute("allUsers", allUsers);
-        return "send_test";
+        return "user_list";
     }
 
     @GetMapping("/expert/grading_occupation")

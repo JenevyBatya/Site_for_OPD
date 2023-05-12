@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="en">
+<html xmlns:th="http://www.thymeleaf.org">
 <head>
     <title>Тест на реакцию</title>
     <style>
@@ -20,17 +20,17 @@
 <div id="time"></div>
 
 <script>
-    var reactionTimes = [];
-    var message;
-    var divMessage = document.getElementById("message");
-    var divTime = document.getElementById("time");
-    var circle = document.getElementById("circle")
+    let reactionTimes = [];
+    let message;
+    let divMessage = document.getElementById("message");
+    let divTime = document.getElementById("time");
+    let circle = document.getElementById("circle")
 
-    var startTime, reactionTime;
-    var timeToChange = 5000; // 5 секунд
+    let startTime, reactionTime;
+    let timeToChange = 5000; // 5 секунд
     setTimeout(function () {
         timer = setInterval(function () {
-            var randomColor = getRandomColor();
+            let randomColor = getRandomColor();
             circle.style.backgroundColor = randomColor;
             startTime = new Date().getTime();
         }, 1000);
@@ -72,8 +72,8 @@
     });
 
     function getRandomColor() {
-        var colors = ["red", "blue"];
-        var randomIndex = Math.floor(Math.random() * colors.length);
+        let colors = ["red", "blue"];
+        let randomIndex = Math.floor(Math.random() * colors.length);
         return colors[randomIndex];
     }
 </script>

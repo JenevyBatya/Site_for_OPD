@@ -23,6 +23,14 @@ public class User {
         this.age = age;
     }
 
+    public User(int id, String username, String email, String gender, int age) {
+        this.id = id;
+        this.username = username;
+        this.email = email;
+        this.gender = gender;
+        this.age = age;
+    }
+
     public User() {
     }
 

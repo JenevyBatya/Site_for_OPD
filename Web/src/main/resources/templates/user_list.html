@@ -6,10 +6,11 @@
     <title>Все пользователи</title>
 </head>
 <body>
+<div th:replace="~{blocks/header_2 :: header}"></div>
 <div class="main">
     <div th:each="user : ${allUsers}">
-        <a th:href="'/expert/send_test/user_'+${user.getUser_id()}">
-            <h3 th:text="${user.getUsername()}+' '+ ${user.getEmail()}+' '+${user.getAge()}+' '+${user.getGender()}"></h3>
+        <a th:href="'/expert/send_test/user_'+${user.getId()}">
+            <h3 th:text="${user.getUsername()}+' '+ ${user.getEmail()}+' '+${user.getAge()}+' лет '+${user.getGender()}"></h3>
         </a>
     </div>
 </div>
