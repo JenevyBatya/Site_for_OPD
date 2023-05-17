@@ -1,0 +1,32 @@
+body{
+    background: url("https://vsegda-pomnim.com/uploads/posts/2022-04/1651052109_2-vsegda-pomnim-com-p-more-svetloe-foto-2.jpg");
+    /*background-color: aquamarine;*/
+}
+div#autorization{
+    text-align: right;
+    letter-spacing: 40px;
+    margin-right: 40px;
+}
+div#autorization>form>button{
+    /*background: rgb(131,58,180);*/
+    background: linear-gradient(90deg, rgba(131,58,180,1) 0%, rgba(253,29,29,1) 50%, rgba(252,176,69,1) 100%);
+    /*opacity: 0.8;*/
+    font-family: "Agency FB";
+    font-size: larger;
+    width: 100px;
+    height: 40px;
+}
+button[type="submit"]:hover{
+    opacity: 0.8;
+}
+
+form#reg{
+    margin-top: 10px;
+}
+
+div#main{
+    background-color: rgb(240, 248, 255, 0.8);
+    margin: 50px;
+    text-align: center;
+
+}
