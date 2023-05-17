@@ -14,9 +14,12 @@
     <div th:replace="~{blocks/header :: header}"></div>
 </div>
 
-<div class="main">Тесты на этапе разработки<br>
+<div class="main">
+    <div th:if="${availableTests.size() == 0}">
+        <h3>Эксперт еще не назначил вам прохождение тестов</h3>
+    </div>
 
-    <div th:each="test : ${tests}">
+    <div th:each="test : ${availableTests}">
         <a th:href="'/tests/test_' + ${test.getId()}">
             <h3 th:text="${test.getName()}"></h3>
         </a>

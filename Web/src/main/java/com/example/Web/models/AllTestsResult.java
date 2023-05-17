@@ -15,9 +15,9 @@ public class AllTestsResult {
     @JoinColumn(referencedColumnName = "id")
     private FinishedSessionUserTest finishedSessionUserTest;
 
-    private Double result_ms;
+    private String result_ms;
 
-    public AllTestsResult(FinishedSessionUserTest finishedSessionUserTest, Double result_ms) {
+    public AllTestsResult(FinishedSessionUserTest finishedSessionUserTest, String result_ms) {
         this.finishedSessionUserTest = finishedSessionUserTest;
         this.result_ms = result_ms;
     }
@@ -42,11 +42,11 @@ public class AllTestsResult {
         this.finishedSessionUserTest = finishedSessionUserTest;
     }
 
-    public Double getResult_ms() {
+    public String getResult_ms() {
         return result_ms;
     }
 
-    public void setResult_ms(Double result_ms) {
+    public void setResult_ms(String result_ms) {
         this.result_ms = result_ms;
     }
 }

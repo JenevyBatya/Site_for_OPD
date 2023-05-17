@@ -1,10 +1,10 @@
 <!DOCTYPE html>
-<html xmlns:th="http://www.thymeleaf.org">
+<html xmlns:th="http://www.thymeleaf.org" lang="en">
 <head>
     <title>Test</title>
 </head>
 <body>
-<div th:replace="~{blocks/Background}"></div>
+<div th:replace="~{blocks/for_tests}"></div>
 <div id="question"></div>
 <button id="even">Результат четный</button>
 <button id="odd">Результат нечетный</button>
@@ -12,6 +12,7 @@
 
 
 <script>
+
     let attempts = 0;
     let correctAnswers = 0;
     let answers = [];
@@ -21,8 +22,8 @@
 
     function showResults() {
         let endTime = new Date().getTime();
-        let timeTaken = (endTime - startTime) / 1000;
-        let message = 'Вы ответили правильно на ' + correctAnswers + ' из ' + attempts + ' вопросов за ' + timeTaken + ' секунд';
+        let timeTaken = (endTime - startTime);
+        let message = 'Вы ответили правильно на ' + correctAnswers + ' из ' + attempts + ' вопросов за ' + timeTaken/1000 + ' секунд(время после ответа не входит в данный результат)';
         // document.getElementById('question').innerHTML = 'Вы ответили правильно на ' + correctAnswers + ' из ' + attempts + ' вопросов за ' + timeTaken + ' секунд';
         document.getElementById('even').disabled = true;
         document.getElementById('odd').disabled = true;
@@ -57,6 +58,7 @@
         if (!isEven) {
             correctAnswers++;
             answers.push(100);
+            updateProgressBar();
         } else {
             answers.push(0);
         }
@@ -68,6 +70,7 @@
         if (isEven) {
             correctAnswers++;
             answers.push(100);
+            updateProgressBar();
         } else {
             answers.push(0);
         }

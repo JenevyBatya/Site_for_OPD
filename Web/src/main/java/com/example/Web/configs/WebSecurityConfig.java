@@ -17,7 +17,8 @@ import javax.sql.DataSource;
 public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
     @Autowired
     private DataSource dataSource;
-    protected void configure(HttpSecurity http) throws Exception{
+
+    protected void configure(HttpSecurity http) throws Exception {
         String[] staticResources = {
                 "/css/**",
                 "/images/**",
@@ -26,12 +27,13 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
         http.csrf().disable();
         http
                 .authorizeRequests()
-                .antMatchers("/","/registration").permitAll()
-                .antMatchers(staticResources).permitAll()
-                .antMatchers("/occupation/add","/test_result").hasAuthority("USER") // Добавляем путь для страницы, которую нужно защитить
-                .anyRequest().authenticated()
+                    .antMatchers("/", "/registration").permitAll()
+                    .antMatchers("/expert/*", "/expert").hasAuthority("EXPERT")
+                    .antMatchers(staticResources).permitAll()
+                    .antMatchers("/occupation/add", "/test_result").hasAuthority("USER") // Добавляем путь для страницы, которую нужно защитить
+                    .anyRequest().authenticated()
                 .and()
-                .formLogin().defaultSuccessUrl("/",true)
+                .formLogin().defaultSuccessUrl("/", true)
                 .loginPage("/login")
                 .permitAll()
                 .and()
@@ -39,6 +41,7 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
                 .permitAll();
 
     }
+
     @Override
     public void configure(AuthenticationManagerBuilder auth) throws Exception {
         auth.jdbcAuthentication()
@@ -46,11 +49,12 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
                 .passwordEncoder(NoOpPasswordEncoder.getInstance())
                 .usersByUsernameQuery("select email, password, 'true' from user where email=?")
                 .authoritiesByUsernameQuery("select email, role from user inner join user_role on user.id=user_role.user_id where email=?");
-}
+    }
+
     @Override
     public void configure(WebSecurity web) throws Exception {
         web.ignoring().antMatchers(
-                "/css/**","/img/**");
+                "/css/**", "/img/**");
     }
 
 }

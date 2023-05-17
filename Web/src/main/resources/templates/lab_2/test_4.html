@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html xmlns:th="http://www.thymeleaf.org">
+<html xmlns:th="http://www.thymeleaf.org" lang="en">
 <head>
     <title>Reaction Time Test</title>
     <style>
@@ -15,16 +15,18 @@
     </style>
 </head>
 <body>
-<div th:replace="~{blocks/Background}"></div>
+<div th:replace="~{blocks/for_tests}"></div>
 <div class="main">
     <div id="circle_1" class="circle" style="display: inline-block;"></div>
     <div id="circle_2" class="circle" style="display: inline-block;"></div>
     <div id="circle_3" class="circle"></div>
     <script>
-        let reactionTimes = [];
-        let startTime;
+        let answers = [];
+        // let startTime = new Date().getTime();
+        let timeTaken = 0;
         let circleClicked = false;
         let firstTime = true;
+        let correctAnswers = 0;
 
         function changeCircleColor() {
 
@@ -36,13 +38,17 @@
                 firstTime = false;
                 let endTime = new Date();
                 let reactionTime = endTime - startTime;
+                timeTaken+=reactionTime;
                 // circleClicked = true;
                 console.log("Reaction time:", reactionTime, "ms");
-                reactionTimes.push(reactionTime)
+                answers.push(reactionTime)
+                correctAnswers++;
+                updateProgressBar();
             }
-            if (reactionTimes.length === 7) {
+            if (answers.length === 7) {
                 // Перенаправляем на другую страницу
-                localStorage.setItem('answers', JSON.stringify(reactionTimes));
+                localStorage.setItem('timeTaken', JSON.stringify(timeTaken));
+                localStorage.setItem('answers', JSON.stringify(answers));
                 localStorage.setItem('label', JSON.stringify('Время реакции (мс)'))
                 window.location.replace('/tests/test_4/test_result ');
             }
@@ -56,15 +62,19 @@
             document.addEventListener("keydown", function (event) {
                 if (event.code === "Space" && (randomCircle.style.backgroundColor === "red" || randomCircle.style.backgroundColor === "rgba(255, 255, 255, 0.1)")  && !circleClicked) {
                     circleClicked = true;
-                    let endTime = new Date();
+                    let endTime = new Date().getTime();
                     let reactionTime = endTime - startTime;
+                    timeTaken+=reactionTime;
                     console.log("Reaction time:", reactionTime, "ms");
-                    reactionTimes.push(reactionTime)
+                    answers.push(reactionTime)
+                    correctAnswers++;
+                    updateProgressBar();
                 }
             });
-            if (reactionTimes.length === 7) {
+            if (answers.length === 7) {
                 // Перенаправляем на другую страницу
-                localStorage.setItem('answers', JSON.stringify(reactionTimes));
+                localStorage.setItem('timeTaken', JSON.stringify(timeTaken));
+                localStorage.setItem('answers', JSON.stringify(answers));
                 localStorage.setItem('label', JSON.stringify('Время реакции (мс)'))
                 window.location.replace('/tests/test_4/test_result ');
             }

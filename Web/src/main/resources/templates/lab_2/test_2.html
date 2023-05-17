@@ -1,36 +1,104 @@
 <!DOCTYPE html>
-<html xmlns:th="http://www.thymeleaf.org">
+<html lang="en">
 <head>
-  <title>Sound Quiz</title>
-  <script>
-    function playSound(soundFile) {
-      var audio = new Audio(soundFile);
-      audio.play();
-    }
+    <title>Голосовой пример</title>
+    <style>
 
-    function checkAnswer(correctAnswer) {
-      var answer = prompt("Чет или Нечет?");
-      if (answer === correctAnswer) {
-        alert("Правильно!");
-      } else {
-        alert("Неправильно.");
-      }
-    }
-
-    function startQuiz() {
-      playSound("sound1.wav");
-      setTimeout(function() {
-        checkAnswer("Чет");
-        playSound("sound2.wav");
-        setTimeout(function() {
-          checkAnswer("Нечет");
-        }, 2000);
-      }, 2000);
-    }
-  </script>
+    </style>
 </head>
 <body>
+<div th:replace="~{blocks/for_tests}"></div>
+<h1>Пример сложения чисел</h1>
+<p id="example" hidden="hidden"></p>
+<button onclick="checkAnswer('even')">Чет</button>
+<button onclick="checkAnswer('odd')">Нечет</button>
+<button onclick="retry()">Повторить</button>
+<script>
 
-<button onclick="startQuiz()">Start Quiz</button>
+    // Функция для генерации случайных чисел
+    let startTime;
+    let clicked;
+    let timeTaken = 0;
+    correctAnswers = 0;
+    let answers = [];
+    let reactionTime;
+
+    function generateRandomNumbers() {
+        let num1 = Math.floor(Math.random() * 10) + 1;
+        let num2 = Math.floor(Math.random() * 10) + 1;
+        return [num1, num2];
+    }
+
+    // Функция для воспроизведения голосового сообщения
+    function speak(text) {
+        let speech = new SpeechSynthesisUtterance();
+        speech.text = text;
+        speech.lang = 'ru-RU';
+        window.speechSynthesis.speak(speech);
+    }
+
+    // Функция для проверки ответа пользователя
+    function checkAnswer(answer) {
+        if(!clicked) {
+            let exampleText = document.getElementById('example').innerHTML;
+            let numbers = exampleText.split(' + ');
+            let sum = parseInt(numbers[0]) + parseInt(numbers[1]);
+            let result;
+            clicked = true;
+
+            if (sum % 2 === 0) {
+                result = 'even';
+            } else {
+                result = 'odd';
+            }
+            console.log(correctAnswers, result, sum, answers.length)
+
+
+            if (answer === result) {
+                correctAnswers++;
+                answers.push(100);
+                reactionTime = new Date().getTime() - startTime;
+                timeTaken += reactionTime;
+                console.log(reactionTime)
+                // speak('Правильно!');
+            } else {
+                answers.push(0);
+                timeTaken += 5000;
+                // speak('Неправильно!');
+            }
+        }
+        updateProgressBar()
+        if (correctAnswers === 7) {
+            let message = 'Вы ответили правильно на ' + correctAnswers + ' из ' + answers.length + ' вопросов за ' + timeTaken / 1000 + ' миллисекунд(время после ответа не входит в данный результат)';
+            localStorage.setItem('label', JSON.stringify("Правильность ответов (%)"))
+            localStorage.setItem('message', JSON.stringify(message));
+            localStorage.setItem('answers', JSON.stringify(answers));
+            localStorage.setItem('aware', JSON.stringify("!"));
+            localStorage.setItem('timeTaken', JSON.stringify(timeTaken));
+            window.location.replace('/tests/test_2/test_result ');
+        }
+
+        // Генерация нового примера
+        setTimeout(generateExample, 5000);
+    }
+
+    // Функция для генерации нового примера
+    function generateExample() {
+        let numbers = generateRandomNumbers();
+        let exampleText = numbers[0] + ' + ' + numbers[1];
+
+        speak(exampleText);
+        startTime = Date.now();
+        clicked =false;
+
+        document.getElementById('example').innerHTML = exampleText;
+    }
+    function retry(){
+        speak(document.getElementById('example').innerHTML);
+    }
+
+    // Запуск генерации первого примера через 5 секунд
+    setTimeout(generateExample, 5000);
+</script>
 </body>
 </html>

@@ -6,8 +6,6 @@ import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.jdbc.core.BeanPropertyRowMapper;
-import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.security.core.Authentication;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -15,18 +13,16 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
-
-import java.util.Collections;
+import javax.persistence.EntityManager;
+import javax.persistence.PersistenceContext;
 import java.util.List;
 
 @Controller
 public class TestsController {
     @Autowired
-    private JdbcTemplate jdbcTemplate;
-    @Autowired
     TestsRepo testsRepo;
-//    @Autowired
-//    tempRepj tempRepj;
+    @PersistenceContext
+    private EntityManager entityManager;
     @Autowired
     FinishedSessionUserTestRepo finishedSessionUserTestRepo;
     @Autowired
@@ -36,10 +32,12 @@ public class TestsController {
 
     @GetMapping("/tests")
     public String tests(Model model, Authentication authentication) {
-//        String sql = "SELECT trait_name FROM adjective";
-//        List<String> items = jdbcTemplate.queryForList(sql,String.class);
-        Iterable<Tests> tests = testsRepo.findAll();
-        model.addAttribute("tests", tests);
+        int userId = userRepo.findByEmail(authentication.getName()).getId();
+        String availableTestsS = "select new Tests(at.tests.id,t.name,t.description) from AvailableTests at inner join Tests t on at.tests.id=t.id where at.user.id= :id order by at.tests.id";
+        List<Tests> availableTests = entityManager.createQuery(availableTestsS, Tests.class)
+                .setParameter("id", userId)
+                .getResultList();
+        model.addAttribute("availableTests", availableTests);
         boolean test = authentication != null && authentication.isAuthenticated();
         model.addAttribute("test", test);
         return "Tests";
@@ -51,23 +49,23 @@ public class TestsController {
     }
 
     @GetMapping("/tests/test_{text}/test_result")
-    public String res(@PathVariable String text) {
+    public String res(@PathVariable(value = "text") int text,Model model) {
+        model.addAttribute("testId", text);
         return "test_result";
     }
 
     @PostMapping("/tests/test_{text}/test_result")
     public String handleTestResult(@RequestParam("answers") String answersSt, @PathVariable(value = "text") String text, Authentication authentication) throws JsonProcessingException {
         ObjectMapper mapper = new ObjectMapper();
-        List<Double> answers = mapper.readValue(answersSt, new TypeReference<List<Double>>() {
+        List<String> answers = mapper.readValue(answersSt, new TypeReference<List<String>>() {
         });
         FinishedSessionUserTest finishedSessionUserTest = new FinishedSessionUserTest(userRepo.findByEmail(authentication.getName()), testsRepo.findById(Integer.parseInt(text)).get());
+        System.out.println(finishedSessionUserTest);
         finishedSessionUserTestRepo.save(finishedSessionUserTest);
-        int session_id = finishedSessionUserTest.getId();
-
-        for (Double res : answers) {
-            allTestsResultRepo.save(new AllTestsResult(finishedSessionUserTest,res));
+        for (String res : answers) {
+            allTestsResultRepo.save(new AllTestsResult(finishedSessionUserTest, res));
         }
-        return "redirect:/occupation";
+        return "redirect:/tests";
     }
 
 }

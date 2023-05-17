@@ -1,0 +1,18 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<!--Переход в режим эксперта, здесь будут все его функции по тестам и профессиям-->
+    <meta charset="UTF-8">
+    <title>Expert mode</title>
+</head>
+<body>
+<div th:replace="~{blocks/header_2 :: header}"></div>
+<h1>You are chosen</h1>
+<div class="main">
+    <a href="/expert/send_test">
+        <h1>Отправить тест выбранному пользователю</h1></a><br>
+    <a href="/expert/see_statistic"><h1>Посмотреть статистику результатов тестов всех пользователей</h1></a><br>
+    <a href="/expert/grading_occupation"><h1>Оценить профессии по выбранному списку ПВК</h1></a><br>
+</div>
+</body>
+</html>

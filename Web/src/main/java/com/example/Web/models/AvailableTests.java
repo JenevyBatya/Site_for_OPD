@@ -16,6 +16,15 @@ public class AvailableTests {
     @JoinColumn(referencedColumnName = "id")
     private Tests tests;
 
+    public AvailableTests(User user, Tests tests) {
+        this.user = user;
+        this.tests = tests;
+    }
+
+    public AvailableTests() {
+
+    }
+
     public int getId() {
         return id;
     }

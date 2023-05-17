@@ -18,7 +18,7 @@
 </div>
 <div class="main">
 
-    <a href="/occupation/add" id="add">Добавить профессию</a>
+    <a href="/occupation/add" id="add">Добавить профессию</a><br><br>
     <div th:each="line : ${occupations}">
         <a th:href="'/occupation/' + ${line.getId()}" th:text="${line.getName()}" style="display: inline-block;"></a>
         <div style="display: inline-block;">

@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-<!--    Страничка для показа графика сразу после прохождения теста. Здесь есть кнопка, которая отправляет результаты в бд-->
+    <!--    Страничка для показа графика сразу после прохождения теста. Здесь есть кнопка, которая отправляет результаты в бд-->
     <meta charset="UTF-8">
     <title>Test Result</title>
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
@@ -11,7 +11,7 @@
 <div class="main">
     <div id="message"></div>
     <canvas id="chart" style="width: 30%; height: 40%;"></canvas>
-    <form id="reaction-form" action="/tests/test_1/test_result" method="post">
+    <form id="reaction-form" th:action="'/tests/test_' + ${testId} + '/test_result'" method="post">
         <input type="hidden" id="react" name="answers" value="">
 
         <button type="submit">Submit</button>
@@ -19,9 +19,11 @@
 </div>
 
 <script>
+    let sumAnswers = 0;
+    console.log(localStorage.getItem('message'));
     let answers = JSON.parse(localStorage.getItem('answers'));
     let label = JSON.parse(localStorage.getItem('label'));
-    document.getElementById('message').value = JSON.parse(localStorage.getItem('message'));
+    document.getElementById('message').textContent = JSON.parse(localStorage.getItem('message'));
 
     localStorage.removeItem('answers');
     localStorage.removeItem('message');
@@ -29,6 +31,8 @@
     let labels = []
     for (let i = 1; i <= answers.length; i++) {
         labels.push(i.toString());
+        sumAnswers += +answers[i - 1];
+        console.log(answers[i - 1])
     }
 
     let chartData = {
@@ -56,11 +60,19 @@
         options: chartOptions
     });
     if (localStorage.getItem('aware') != null) {
-        const count = answers.filter(item => item === 100).length;
-        answers = [Math.round((count / answers.length) * 10000)/100, localStorage.getItem('timeTaken')];
-        console.log(answers);
+        // const count = answers.filter(item => item === '100').length;
+        const timeTaken = (localStorage.getItem('timeTaken')).toString();
+        const percentage = (Math.round((7 / answers.length) * 10000) / 100) + '%';
 
-}   localStorage.removeItem('aware')
+        answers = [percentage, timeTaken];
+        console.log(answers);
+    } else {
+        console.log(sumAnswers)
+        answers = [Math.round(sumAnswers / answers.length), localStorage.getItem('timeTaken')];
+    }
+
+
+    localStorage.removeItem('aware')
     document.getElementById("react").value = JSON.stringify(answers);
     if (localStorage.getItem('message') != null) {
         document.getElementById('message').textContent = JSON.parse(localStorage.getItem('message'));

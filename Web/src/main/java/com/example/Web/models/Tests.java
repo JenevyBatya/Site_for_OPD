@@ -14,6 +14,20 @@ public class Tests {
     @OneToMany(mappedBy = "tests")
     private Set<AvailableTests> availableTestsSet;
 
+    public Tests(int id) {
+        this.id = id;
+    }
+
+    public Tests(int id, String name, String description) {
+        this.id = id;
+        this.name = name;
+        this.description = description;
+    }
+
+    public Tests() {
+
+    }
+
     public int getId() {
         return id;
     }
