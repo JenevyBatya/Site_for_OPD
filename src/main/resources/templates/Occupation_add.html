@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<!--Страница добавления профессии, скоро подчищу оценку-->
+<head>
+    <link rel="stylesheet" type="text/css" href="test_design_style.css">
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Добавление профессии</title>
+    <script th:inline="javascript">
+        function validateForm() {
+            let x = document.forms["form"]["description","occupation_name"].value;
+            let checkboxes = document.querySelectorAll('input[type=checkbox][name=selectedIds]:checked');
+            if (x == "") {
+                alert("Field must be filled out");
+                return false;
+            }
+        }
+    </script>
+</head>
+
+<body>
+<div th:if="${test}">
+    <div th:replace="~{blocks/header_2 :: header}"></div>
+</div>
+<div th:if="${not test}">
+    <div th:replace="~{blocks/header :: header}"></div>
+</div>
+<div class="main">
+    <p th:text="'Hello, ' + ${title} + '!'" />
+    <div>
+        <form action="'/expert/grading_occupation/" method="post" onsubmit="return validateForm()" name="form" th:object="${result}">
+            <input type="text" name="occupation_name" placeholder="Введите название профессии" class="form-control"><br>
+            <input type="text" name="description" placeholder="Введите описание профессии"><br>
+
+            <button type="submit" class="bt bt-success">Добавить профессию</button>
+        </form>
+    </div>
+</div>
+</body>
+</html>

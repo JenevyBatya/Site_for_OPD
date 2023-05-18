@@ -1,0 +1,71 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<!--    Страничка для показа графика сразу после прохождения теста. Здесь есть кнопка, которая отправляет результаты в бд-->
+    <meta charset="UTF-8">
+    <title>Test Result</title>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+</head>
+<body>
+<div th:replace="~{blocks/header :: header}"></div>
+<div class="main">
+    <div id="message"></div>
+    <canvas id="chart" style="width: 30%; height: 40%;"></canvas>
+    <form id="reaction-form" action="/tests/test_1/test_result" method="post">
+        <input type="hidden" id="react" name="answers" value="">
+
+        <button type="submit">Submit</button>
+    </form>
+</div>
+
+<script>
+    let answers = JSON.parse(localStorage.getItem('answers'));
+    let label = JSON.parse(localStorage.getItem('label'));
+    document.getElementById('message').value = JSON.parse(localStorage.getItem('message'));
+
+    localStorage.removeItem('answers');
+    localStorage.removeItem('message');
+    localStorage.removeItem('label');
+    let labels = []
+    for (let i = 1; i <= answers.length; i++) {
+        labels.push(i.toString());
+    }
+
+    let chartData = {
+        labels: labels,
+        datasets: [{
+            label: label,
+            data: answers,
+            backgroundColor: 'rgba(255, 99, 132, 0.2)',
+            borderColor: 'rgba(255, 99, 132, 1)',
+            borderWidth: 1
+        }]
+    };
+    let chartOptions = {
+        scales: {
+            yAxes: [{
+                ticks: {
+                    beginAtZero: true
+                }
+            }]
+        }
+    };
+    let chart = new Chart(document.getElementById('chart'), {
+        type: 'bar',
+        data: chartData,
+        options: chartOptions
+    });
+    if (localStorage.getItem('aware') != null) {
+        const count = answers.filter(item => item === 100).length;
+        answers = [Math.round((count / answers.length) * 10000)/100, localStorage.getItem('timeTaken')];
+        console.log(answers);
+
+}   localStorage.removeItem('aware')
+    document.getElementById("react").value = JSON.stringify(answers);
+    if (localStorage.getItem('message') != null) {
+        document.getElementById('message').textContent = JSON.parse(localStorage.getItem('message'));
+        console.log(JSON.parse(localStorage.getItem('message')))
+    }
+</script>
+</body>
+</html>

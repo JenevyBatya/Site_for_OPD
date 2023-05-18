@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" xmlns:th="https://www.thymeleaf.org">
+<head>
+<!--    Страничка логина, только мыло и пароль. Если пользователь не числится, Invalid username and password-->
+    <title>Login </title>
+</head>
+<body>
+<div th:replace="~{blocks/header_2 :: header}"></div>
+
+<div class="main">
+    <div th:if="${param.error}">
+        Invalid username and password.
+    </div>
+    <div th:if="${param.logout}">
+        You have been logged out.
+    </div>
+    <form th:action="@{/login}" method="post">
+        <div><label> Адрес электронной почты : <input type="text" name="username"/> </label></div>
+        <div><label> Пароль: <input type="password" name="password"/> </label></div>
+        <div><input type="submit" value="Sign In"/></div>
+    </form>
+</div>
+</body>
+</html>
+
+<!--<!DOCTYPE html>-->
+<!--<html xmlns="http://www.w3.org/1999/xhtml" xmlns:th="https://www.thymeleaf.org"-->
+<!--      xmlns:sec="https://www.thymeleaf.org/thymeleaf-extras-springsecurity3">-->
+<!--<head>-->
+<!--</head>-->
+<!--<body>-->
+<!--<div class="container">-->
+<!--    <div class="body">-->
+<!--        <h2>Вход</h2>-->
+<!--        <div class="form">-->
+<!--            <form th:action="@{/login}" method="post">-->
+<!--                <p class="fw-normal">Пожалуйста, авторизуйтесь</p>-->
+<!--                <div th:if="${param.error}">-->
+<!--                    Invalid username and password.-->
+<!--                </div>-->
+<!--                <div th:if="${param.logout}">-->
+<!--                    Вы вышли из системы.-->
+<!--                </div>-->
+<!--                <div class="form-control">-->
+<!--                    <input type="text" placeholder="Ваш Email:" name="username">-->
+<!--                </div>-->
+<!--                <div class="form-control">-->
+<!--                    <input type="password" placeholder="Ваш пароль:" name="password">-->
+<!--                </div>-->
+<!--                <div class="form-control">-->
+<!--                    <input type="checkbox" value="remember-me"> Запомнить меня-->
+<!--                </div>-->
+<!--                <div class="form-control">-->
+<!--                    <button class="button" type="submit">Войти</button>-->
+<!--                </div>-->
+<!--            </form>-->
+<!--        </div>-->
+<!--    </div>-->
+<!--</div>-->
+<!--</body>-->
+<!--</html>-->

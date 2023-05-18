@@ -1,0 +1,44 @@
+<!--<head></head>-->
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<!--Главная страница сайта-->
+<head>
+    <link rel="stylesheet" type="text/css" href="test_design_style.css">
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Подключение CSS к HTML</title>
+
+</head>
+<body>
+<div th:if="${test}">
+    <div th:replace="~{blocks/header_2 :: header}"></div>
+</div>
+<div th:if="${not test}">
+    <div th:replace="~{blocks/header :: header}"></div>
+</div>
+<div class="main">
+    <pre>
+                             ..........／＞　   フ.....................
+        　　　　　| 　_　 _|
+        　 　　　／`ミ _x 彡
+        　　 　 /　　　 　 |
+        　　　 /　 ヽ　　 ﾉ
+        　／￣|　　 |　|　|
+        　| (￣ヽ＿_ヽ_)_)
+        
+    </pre>
+
+    <p>Сайт в состоянии разработки, у нас лапки:(</p>
+    <p>
+
+    <form th:action="@{/logout}" method="post">
+        <button type="submit" class="button">Sign out</button>
+    </form>
+    </p>
+
+
+</div>
+
+
+</body>

@@ -1,0 +1,183 @@
+div#header {
+    margin-right: 2rem;
+    margin-left: 2rem;
+    margin-top: 2rem;
+    padding: 3rem;
+    background-color: #3b3444;
+    font-family: 'Montserrat', sans-serif;
+    text-align: center;
+}
+
+div.button > a,
+a#add,
+a.button {
+    background: #3b3444;
+    text-decoration: none;
+    color: #8f8998;
+    font-family: 'Montserrat', sans-serif;
+    font-size: 1.5rem;
+    text-transform: uppercase;
+    width: 8rem;
+    height: 3.5rem;
+    padding: 0.8rem;
+    margin-left: 2rem;
+    font-weight: 500;
+    position: relative;
+    overflow: hidden;
+    transition: all 0.5s;
+}
+
+div.button > a::before,
+a#add::before,
+a.button::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    z-index: 1;
+    background-color: rgba(176, 255, 255, 0.03);
+    transition: all 0.3s;
+}
+
+div.button > a:hover::before,
+a#add:hover::before,
+a.button:hover::before {
+    opacity: 0;
+    transform: scale(0.5, 0.5);
+}
+
+div.button > a::after,
+a#add::after,
+a.button::after {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    z-index: 1;
+    opacity: 0;
+    transition: all 0.3s;
+    border: 1px solid rgba(255, 255, 255, 0.5);
+    transform: scale(1.2, 1.2);
+}
+
+div.button > a:hover::after,
+a#add:hover::after,
+a.button:hover::after {
+    opacity: 1;
+    transform: scale(1, 1);
+}
+
+body {
+    background-color: #8f8998;
+    background-attachment: fixed;
+}
+
+div.main {
+    background-color: #d3d7e7;
+    margin: 2rem;
+    text-align: center;
+    font-family: 'Montserrat', sans-serif;
+    font-size: 1.5rem;
+}
+
+div#main {
+    background-color: #d3d7e7;
+    margin: 2rem;
+    text-align: center;
+    font-family: 'Lato', sans-serif;
+    font-size: 1.5rem;
+}
+
+div#autorization {
+    text-align: right;
+    letter-spacing: 2rem;
+    margin-right: 2rem;
+}
+
+div#autorization > form > button,
+div.button > form > button {
+    background: #766183;
+    font-family: 'Montserrat', sans-serif;
+    font-size: 1.5rem;
+    width: 8rem;
+    height: 3.5rem;
+    text-transform: uppercase;
+    transition: opacity 300ms cubic-bezier(.694, 0, 0.335, 1);
+}
+
+div#autorization > form > button:hover,
+div.button > form > button:hover {
+    opacity: 0.8;
+}
+
+button[type="submit"]:hover {
+    opacity: 0.8;
+}
+
+form#reg {
+    margin-top: 1rem;
+}
+
+.checkbox-list {
+    -webkit-column-count: 2;
+    -moz-column-count: 2;
+    column-count: 2;
+    text-align: left;
+    margin-left: 1rem;
+    margin-right: 1rem;
+}
+
+label.checkbox {
+    display: inline-block;
+}
+
+div.checkbox {
+    margin-left: 1rem;
+    margin-right: 1rem;
+}
+
+canvas#chart,
+script {
+    width: 1rem;
+    height: 1rem;
+}
+
+@media (max-width: 768px) {
+    div#header {
+        padding: 2rem;
+    }
+
+    div.button > a,
+    a#add,
+    a.button {
+        width: 8rem;
+        height: 3.5rem;
+        margin-left: 1rem;
+    }
+
+    div.button > a::before,
+    a#add::before,
+    a.button::before {
+        background-color: rgba(176, 255, 255, 0.01);
+    }
+
+    div.main,
+    div#main {
+        margin: 2rem;
+    }
+
+    div#autorization {
+        letter-spacing: 2rem;
+        margin-right: 2rem;
+    }
+
+    div#autorization > form > button,
+    div.button > form > button {
+        width: 8rem;
+        height: 3.5rem;
+    }
+}

@@ -1,0 +1,26 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+<!--    Пока что страничка со всеми тестами, потом переделаю под страничку с доступными для пользователями тестами-->
+    <meta charset="UTF-8">
+    <title>Тесты</title>
+
+</head>
+<body>
+<div th:if="${test}">
+    <div th:replace="~{blocks/header_2 :: header}"></div>
+</div>
+<div th:if="${not test}">
+    <div th:replace="~{blocks/header :: header}"></div>
+</div>
+
+<div class="main">Тесты на этапе разработки<br>
+
+    <div th:each="test : ${tests}">
+        <a th:href="'/tests/test_' + ${test.getId()}">
+            <h3 th:text="${test.getName()}"></h3>
+        </a>
+    </div>
+</div>
+</body>
+</html>

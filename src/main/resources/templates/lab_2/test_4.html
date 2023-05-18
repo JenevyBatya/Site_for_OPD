@@ -1,0 +1,85 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <title>Reaction Time Test</title>
+    <style>
+        .circle {
+            width: 300px;
+            height: 300px;
+            border-radius: 50%;
+            background-color: rgba(255, 255, 255, 0.1);
+            border: 2px solid black;
+            margin: 50px auto 0;
+            text-align: right;
+        }
+    </style>
+</head>
+<body>
+<div th:replace="~{blocks/Background}"></div>
+<div class="main">
+    <div id="circle_1" class="circle" style="display: inline-block;"></div>
+    <div id="circle_2" class="circle" style="display: inline-block;"></div>
+    <div id="circle_3" class="circle"></div>
+    <script>
+        let reactionTimes = [];
+        let startTime;
+        let circleClicked = false;
+        let firstTime = true;
+
+        function changeCircleColor() {
+
+            // Выбираем случайный круг
+            let circles = document.getElementsByClassName("circle");
+            let randomIndex = Math.floor(Math.random() * circles.length);
+            let randomCircle = circles[randomIndex];
+            if (!circleClicked && !firstTime){
+                firstTime = false;
+                let endTime = new Date();
+                let reactionTime = endTime - startTime;
+                // circleClicked = true;
+                console.log("Reaction time:", reactionTime, "ms");
+                reactionTimes.push(reactionTime)
+            }
+            if (reactionTimes.length === 7) {
+                // Перенаправляем на другую страницу
+                localStorage.setItem('answers', JSON.stringify(reactionTimes));
+                localStorage.setItem('label', JSON.stringify('Время реакции (мс)'))
+                window.location.replace('/tests/test_4/test_result ');
+            }
+            // Изменяем его цвет на красный на 1 секунду
+            randomCircle.style.backgroundColor = "red";
+            circleClicked = false;
+
+
+            startTime = new Date();
+            // Обработчик события нажатия на клавишу пробел
+            document.addEventListener("keydown", function (event) {
+                if (event.code === "Space" && (randomCircle.style.backgroundColor === "red" || randomCircle.style.backgroundColor === "rgba(255, 255, 255, 0.1)")  && !circleClicked) {
+                    circleClicked = true;
+                    let endTime = new Date();
+                    let reactionTime = endTime - startTime;
+                    console.log("Reaction time:", reactionTime, "ms");
+                    reactionTimes.push(reactionTime)
+                }
+            });
+            if (reactionTimes.length === 7) {
+                // Перенаправляем на другую страницу
+                localStorage.setItem('answers', JSON.stringify(reactionTimes));
+                localStorage.setItem('label', JSON.stringify('Время реакции (мс)'))
+                window.location.replace('/tests/test_4/test_result ');
+            }
+
+            setTimeout(function () {
+                // Возвращаем его в прозрачное состояние
+                randomCircle.style.backgroundColor = "rgba(255, 255, 255, 0.1)";
+
+                firstTime = false;
+            }, 1000);
+        }
+
+        // Запускаем функцию каждые 10 секунд
+        setInterval(changeCircleColor, 5000);
+    </script>
+</div>
+</body>
+</html>
