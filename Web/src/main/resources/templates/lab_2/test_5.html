@@ -39,6 +39,7 @@
         }
         if (answers.length === 7) {
             // Перенаправляем на другую страницу
+            localStorage.setItem('timeTaken', JSON.stringify(timeTaken));
             localStorage.setItem('answers', JSON.stringify(answers));
             localStorage.setItem('label', JSON.stringify('Время реакции (мс)'))
             window.location.replace('/tests/test_5/test_result ');
@@ -64,7 +65,7 @@
             localStorage.setItem('timeTaken', JSON.stringify(timeTaken));
             localStorage.setItem('answers', JSON.stringify(answers));
             localStorage.setItem('label', JSON.stringify('Время реакции (мс)'))
-            window.location.replace('/tests/test_4/test_result ');
+            window.location.replace('/tests/test_5/test_result ');
         }
         firstTime = false;
     }

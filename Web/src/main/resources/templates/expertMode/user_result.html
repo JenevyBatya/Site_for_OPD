@@ -4,8 +4,10 @@
     <meta charset="UTF-8">
     <title>Результаты тестов</title>
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+
 </head>
 <body>
+<div th:replace="~{blocks/header_2 :: header}"></div>
 <div th:if="${oneTestResult_10 == null or oneTestResult_10.size() == 0}">
     <h2>Пользователь еще не прошел данный тест</h2>
 </div>

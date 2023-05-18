@@ -29,7 +29,7 @@
 <div class="main">
     <p th:text="'Hello, ' + ${title} + '!'" />
     <div>
-        <form action="'/expert/grading_occupation/" method="post" onsubmit="return validateForm()" name="form" th:object="${result}">
+        <form action="/occupation/add" method="post" onsubmit="return validateForm()" name="form" th:object="${result}">
             <input type="text" name="occupation_name" placeholder="Введите название профессии" class="form-control"><br>
             <input type="text" name="description" placeholder="Введите описание профессии"><br>
 

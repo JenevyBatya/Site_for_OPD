@@ -65,15 +65,7 @@ public class MainController {
     public String occupationAdd(@RequestParam String occupation_name, @RequestParam String description, @ModelAttribute("result") result result, Authentication authentication) {
         Occupation occupation = new Occupation(occupation_name, description);
         occupationRepository.save(occupation);
-        int[] selectedIds = result.getSelectedIds();
-        String username = authentication.getName();
-        User user = userRepo.findByUsername(username);
-        if (selectedIds != null || selectedIds.length != 0) {
-            for (int adjId : selectedIds) {
-                Adjective adjective = adjectiveRepository.findById(adjId).get();
-                awaitingForCheckingByRepository.save(new AwaitingForCheckingBy(user, occupation, adjective));
-            }
-        }
+
         return "redirect:/occupation";
     }
 
@@ -85,7 +77,11 @@ public class MainController {
         model.addAttribute("user", user);
         model.addAttribute("username", user.getUsername());
         boolean test = authentication != null && authentication.isAuthenticated();
+        boolean exp = authentication.getAuthorities().contains(Role.EXPERT);
+//        System.out.println(exp);
         model.addAttribute("test", test);
+        model.addAttribute("exp",exp);
+        model.addAttribute("q",authentication.getAuthorities());
 
         return "profile";
     }
