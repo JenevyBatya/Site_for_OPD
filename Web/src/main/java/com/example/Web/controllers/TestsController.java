@@ -55,7 +55,7 @@ public class TestsController {
     }
 
     @PostMapping("/tests/test_{text}/test_result")
-    public String handleTestResult(@RequestParam("answers") String answersSt, @PathVariable(value = "text") String text, Authentication authentication) throws JsonProcessingException {
+    public String handleTestResult(@RequestParam("answersList") String answersSt, @PathVariable(value = "text") String text, Authentication authentication) throws JsonProcessingException {
         ObjectMapper mapper = new ObjectMapper();
         List<String> answers = mapper.readValue(answersSt, new TypeReference<List<String>>() {
         });

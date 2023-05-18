@@ -1,8 +1,6 @@
 <!DOCTYPE html>
 <html>
-
 <head>
-    <title>Тест на реакцию</title>
     <style>
         #circle-container {
             position: relative;
@@ -11,7 +9,6 @@
             background-color: lightgray;
             border-radius: 50%;
             border: 1px solid black;
-
         }
 
         #circle {
@@ -42,6 +39,7 @@
     <div class="star" style="top: 50%; left: -3%" id="star_2"></div>
     <div class="star" style="top: 90%; left: 75%;" id="star_3"></div>
 </div>
+<button id="startButton">Начать</button>
 
 <script>
     let star_1 = document.getElementById('star_1');
@@ -53,24 +51,25 @@
     let clicked = false;
     let firstTime = true;
     let circle = document.getElementById("circle");
-    let color = getRandomColorMust(null)
+    let color = getRandomColorMust(null);
     circle.style.background = color;
 
     function updateSpeed() {
-        let speed = [0.5]
-        circleSpeed = speed[Math.floor(Math.random() * speed.length)]
+        let speed = [0.5];
+        circleSpeed = speed[Math.floor(Math.random() * speed.length)];
     }
 
     document.addEventListener('DOMContentLoaded', function () {
         let circleContainer = document.getElementById('circle-container');
         let circle = document.getElementById('circle');
+        let startButton = document.getElementById('startButton');
 
         let reactionTime = 0;
         let circlePosition = 190;
         updateSpeed();
 
         function updateCircle() {
-            console.log(clicked)
+            console.log(clicked);
             let radius = circleContainer.offsetWidth / 2;
             let angle = (circlePosition / 180) * Math.PI;
             let circleX = radius * Math.cos(angle) + radius;
@@ -83,39 +82,30 @@
                     if (circlePosition === star_1.offsetLeft + 69 && clicked && color === 'orangered') {
                         reactionTime = performance.now();
                         clicked = false;
-
                     } else if (circlePosition === 56 && clicked && color === 'goldenrod') {
                         reactionTime = performance.now();
                         clicked = false;
-                        // circleSpeed=0;
                     } else if (circlePosition === 180 && clicked && color === 'turquoise') {
                         reactionTime = performance.now();
                         clicked = false;
-                        // circleSpeed=0;
                     }
                 } else {
                     if (circlePosition === star_1.offsetLeft + 69 && color === 'orangered') {
                         reactionTime = performance.now();
                         clicked = false;
                         firstTime = false;
-
                     } else if (color === 'goldenrod' && circlePosition === 80) {
                         reactionTime = performance.now();
                         clicked = false;
                         firstTime = false;
-                        // circleSpeed=0;
-                        console.log(star_2.offsetLeft, star_2.offsetTop, star_2.offsetWidth, star_2.offsetHeight)
                     } else if (color === 'turquoise' && circlePosition === 180) {
                         reactionTime = performance.now();
                         clicked = false;
-                        // circleSpeed=0;
                         firstTime = false;
-                        console.log(star_3.offsetLeft)
                     }
                 }
             }
             if (circlePosition >= 360) {
-
                 circlePosition = 0;
             }
 
@@ -124,6 +114,11 @@
             requestAnimationFrame(updateCircle);
         }
 
+        startButton.addEventListener('click', function () {
+            startButton.disabled = true; // Чтобы кнопка нельзя было нажать повторно
+            updateCircle();
+        });
+
         document.addEventListener('keydown', function (event) {
             if (event.code === 'Space') {
                 if (reactionTime !== 0 && !clicked) {
@@ -131,25 +126,18 @@
                     console.log('Ваша реакция: ' + userReactionTime.toFixed(2) + ' мс');
                     color = getRandomColorMust(color);
                     circle.style.background = color;
-
-                    console.log(color)
                     clicked = true;
                     updateSpeed();
                     timeTaken += reactionTime;
-                    reactionTime=0;
+                    reactionTime = 0;
                     correctAnswers++;
-
-
                 } else {
                     console.log('Промах! Нажмите пробел, когда круг проходит звездочку.');
                 }
                 reactionTime = 0;
             }
         });
-
-        updateCircle();
-    })
-    ;
+    });
 
     function getRandomColorMust(colorNow) {
         let colors = ["turquoise", "goldenrod", "orangered"];
@@ -160,13 +148,13 @@
             circleColor = colors[randomIndex];
         } else {
             colors = colors.filter(function (item) {
-                return item !== colorNow
-            })
+                return item !== colorNow;
+            });
             let randomIndex = Math.floor(Math.random() * colors.length);
             circleClicked = false;
             circleColor = colors[randomIndex];
         }
-        console.log(circleColor)
+        console.log(circleColor);
         if (circleColor === 'turquoise') {
             star_2.style.background = 'yellow';
             star_2.style.opacity = 1;
@@ -183,7 +171,7 @@
             star_2.style.opacity = 0;
             star_3.style.opacity = 0;
         }
-        return circleColor
+        return circleColor;
     }
 </script>
 </body>
