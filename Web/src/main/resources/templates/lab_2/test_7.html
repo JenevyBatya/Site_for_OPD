@@ -76,6 +76,12 @@
     let missTimes = 0;
     let mistakenTimes = 0;
     let chosenTime;
+    let firstTime = true;
+    let circle_1Speed;
+    let reactionTime_1;
+    let d = [];
+    let changerSpeed = 8.3;
+
 
     function showResults() {
         clicked = true;
@@ -100,10 +106,10 @@
         let circle_1 = document.getElementById("circle_1");
         let circle_2 = document.getElementById("circle_2");
         let circle_3 = document.getElementById("circle_3");
-        circle_1.style.background='goldenrod';
-        circle_2.style.background='orangered';
-        circle_3.style.background='turquoise';
-        let circle_1Speed = 1;
+        circle_1.style.background = 'goldenrod';
+        circle_2.style.background = 'orangered';
+        circle_3.style.background = 'turquoise';
+        circle_1Speed = 1;
         let circle_2Speed = 0.8;
         let circle_3Speed = 0.5;
         let wholeCircle_1 = false;
@@ -112,12 +118,13 @@
 
         let startButton = document.getElementById('startButton');
 
-        let reactionTime_1 = 0;
+        reactionTime_1 = 0;
         let reactionTime_2 = 0;
         let reactionTime_3 = 0;
         let circle_1Position = 0;
         let circle_2Position = 0;
         let circle_3Position = 0;
+
         // updateSpeed();
 
         function updateCircle() {
@@ -142,7 +149,7 @@
 
             if (circle_1Position === 180) {
                 clicked = false;
-                reactionTime_1 = new Date().getTime() + 180 * 8.3 / circle_1Speed;
+                reactionTime_1 = new Date().getTime() + 180 * changerSpeed / circle_1Speed;
             } else if (circle_1Position === 360) {
                 if (wholeCircle_1) {
                     missTimes++;
@@ -155,7 +162,7 @@
 
             if (circle_2Position === 360) {
                 clicked = false;
-                reactionTime_2 = new Date().getTime() + 180 * 8.3 / circle_2Speed;
+                reactionTime_2 = new Date().getTime() + 180 * changerSpeed / circle_2Speed;
             } else if (circle_2Position === 180) {
                 if (wholeCircle_2) {
                     missTimes++;
@@ -168,7 +175,7 @@
 
             if (circle_3Position === 236) {
                 clicked = false;
-                reactionTime_3 = new Date().getTime() + 180 * 8.3 / circle_3Speed;
+                reactionTime_3 = new Date().getTime() + 180 * changerSpeed / circle_3Speed;
             } else if (circle_3Position === 56) {
                 if (wholeCircle_3) {
                     missTimes++;
@@ -191,13 +198,23 @@
 
             circle_1Position += circle_1Speed;
             circle_2Position += circle_2Speed;
-
             circle_2Position = parseFloat(circle_2Position.toFixed(1))
-
             circle_3Position += circle_3Speed;
-            // console.log(circle_3Position)
-            // circle_3Position = parseFloat(circle_3Position.toFixed(1))
-            // console.log(circle_3Position)
+
+            if (firstTime) {
+                if (d.length < 5 && reactionTime_1 !== 0 && firstTime) {
+                    d.push(new Date().getTime() - reactionTime_1)
+                } else if (firstTime && d.length === 5) {
+                    let ds = [];
+                    firstTime = false;
+                    for (let i = 0; i < 4; i++) {
+                        ds.push(d[i] - d[i + 1])
+                    }
+                    changerSpeed = Math.abs(ds.reduce((accumulator, currentValue) => accumulator + currentValue, 0) / ds.length);
+                    reactionTime = new Date().getTime() + 180 * changerSpeed / circle_1Speed;
+                    console.log(changerSpeed)
+                }
+            }
 
             requestAnimationFrame(updateCircle);
         }
@@ -229,7 +246,7 @@
                     reactionTimes.push(userReactionTime)
                     reactionTimes_1.push(userReactionTime)
                     //orangered
-                }else if(reactionTime_2 !== 0 && !clicked && (event.key === "c" || event.key === "C" || event.key === "с" || event.key === "С")){
+                } else if (reactionTime_2 !== 0 && !clicked && (event.key === "c" || event.key === "C" || event.key === "с" || event.key === "С")) {
                     let userReactionTime = new Date().getTime() - reactionTime_2;
                     console.log('Ваша реакция: ' + userReactionTime.toFixed(2) + ' мс');
                     clicked = true;
@@ -237,15 +254,14 @@
                     reactionTimes.push(userReactionTime)
                     reactionTimes_2.push(userReactionTime)
                     //turquoise
-                }else if(reactionTime_3 !== 0 && !clicked && (event.key === "z" || event.key === "Z" || event.key === "я" || event.key === "Я")){
+                } else if (reactionTime_3 !== 0 && !clicked && (event.key === "z" || event.key === "Z" || event.key === "я" || event.key === "Я")) {
                     let userReactionTime = new Date().getTime() - reactionTime_3;
                     console.log('Ваша реакция: ' + userReactionTime.toFixed(2) + ' мс');
                     clicked = true;
                     wholeCircle_3 = false;
                     reactionTimes.push(userReactionTime)
                     reactionTimes_3.push(userReactionTime)
-                }
-                else {
+                } else {
                     console.log('Промах! Нажмите пробел, когда круг проходит звездочку.');
                     mistakenTimes++;
                 }

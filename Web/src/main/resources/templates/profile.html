@@ -21,8 +21,10 @@
         <!--    <div th:if="${exp}">-->
         <a href="/expert">Режим эксперта</a><br><br>
         <!--    </div>-->
-        <div th:text="${q}"></div>
-        <div th:text="${exp}"></div>
+<!--        <div th:text="${q}"></div>-->
+    <input type="hidden" id="q" th:value="${q}">
+    <input type="hidden" id="exp" th:value="${exp}">
+<!--        <div th:text="${exp}"></div>-->
         <form th:action="@{/logout}" method="post">
             <button type="submit" class="button">Sign out</button>
 
@@ -30,5 +32,10 @@
     </div>
     </p>
 </div>
+<script>
+    console.log(typeof document.getElementById('q').value)
+    console.log(typeof document.getElementById('exp').value)
+
+</script>
 </body>
 </html>
