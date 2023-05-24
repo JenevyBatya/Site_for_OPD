@@ -57,6 +57,7 @@
     let missTimes = 0;
     let chosenTime;
     let wholeCircle = false;
+    let d = [];
 
     function showResults() {
         clicked = true;
@@ -113,6 +114,12 @@
             }
 
             circlePosition += circleSpeed;
+            if(d.length<5){
+                d.push(new Date().getTime() - reactionTime)
+            }else{
+                console.log(d)
+            }
+            // console.log(new Date().getTime() - reactionTime)
 
             requestAnimationFrame(updateCircle);
         }
