@@ -8,6 +8,7 @@
 </head>
 <body>
 <div th:replace="~{blocks/for_tests}"></div>
+<button id="startButton">Начать</button>
 <h1>Пример сложения чисел</h1>
 <p id="example" hidden="hidden"></p>
 <button onclick="checkAnswer('even')">Чет</button>
@@ -96,9 +97,11 @@
     function retry(){
         speak(document.getElementById('example').innerHTML);
     }
-
-    // Запуск генерации первого примера через 5 секунд
-    setTimeout(generateExample, 5000);
+    startButton.addEventListener('click', function () {
+        startButton.disabled = true; // Чтобы кнопка нельзя было нажать повторно
+        // Запуск генерации первого примера через 5 секунд
+        setTimeout(generateExample, 5000);
+    });
 </script>
 </body>
 </html>

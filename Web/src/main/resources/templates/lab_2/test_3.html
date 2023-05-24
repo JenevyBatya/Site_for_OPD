@@ -5,6 +5,7 @@
 </head>
 <body>
 <div th:replace="~{blocks/for_tests}"></div>
+<button id="startButton">Начать</button>
 <div id="question"></div>
 <button id="even">Результат четный</button>
 <button id="odd">Результат нечетный</button>
@@ -18,20 +19,23 @@
     let answers = [];
     let startTime = new Date().getTime();
     let isEven;
-    generateQuestion();
+    startButton.addEventListener('click', function () {
+        startButton.disabled = true; // Чтобы кнопка нельзя было нажать повторно
+        generateQuestion();
+    });
 
     function showResults() {
         let endTime = new Date().getTime();
         let timeTaken = (endTime - startTime);
-        let message = 'Вы ответили правильно на ' + correctAnswers + ' из ' + attempts + ' вопросов за ' + timeTaken/1000 + ' секунд(время после ответа не входит в данный результат)';
+        let message = 'Вы ответили правильно на ' + correctAnswers + ' из ' + attempts + ' вопросов за ' + timeTaken / 1000 + ' секунд(время после ответа не входит в данный результат)';
         // document.getElementById('question').innerHTML = 'Вы ответили правильно на ' + correctAnswers + ' из ' + attempts + ' вопросов за ' + timeTaken + ' секунд';
         document.getElementById('even').disabled = true;
         document.getElementById('odd').disabled = true;
-        localStorage.setItem('label',JSON.stringify("Правильность ответов (%)"))
+        localStorage.setItem('label', JSON.stringify("Правильность ответов (%)"))
         localStorage.setItem('message', JSON.stringify(message));
         localStorage.setItem('answers', JSON.stringify(answers));
-        localStorage.setItem('aware',JSON.stringify("!"));
-        localStorage.setItem('timeTaken',JSON.stringify(timeTaken));
+        localStorage.setItem('aware', JSON.stringify("!"));
+        localStorage.setItem('timeTaken', JSON.stringify(timeTaken));
         window.location.replace('/tests/test_3/test_result ');
         // console.log(answers);
     }

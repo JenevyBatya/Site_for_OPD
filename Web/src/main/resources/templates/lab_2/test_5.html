@@ -6,7 +6,7 @@
 <body>
 <div th:replace="~{blocks/for_tests}"></div>
 <h1>Звуковой сигнал и оценка времени реакции</h1>
-
+<button id="startButton">Начать</button>
 <audio class="audio" src="http://localhost:8081/audio/chest_open.mp3" preload="auto"></audio>
 <audio class="audio" src="http://localhost:8081/audio/death.mp3" preload="auto"></audio>
 <audio class="audio" src="http://localhost:8081/audio/hit_sound.mp3" preload="auto"></audio>
@@ -14,7 +14,7 @@
 <audio class="audio" src="http://localhost:8081/audio/zombie.mp3" preload="auto"></audio>
 
 
-<script>``
+<script>
     let timeTaken = 0;
     let answers = [];
     let startTime;
@@ -32,7 +32,7 @@
             let endTime = new Date();
             let reactionTime = endTime - startTime;
             console.log("Reaction time:", reactionTime, "ms");
-            timeTaken+=reactionTime;
+            timeTaken += reactionTime;
             answers.push(reactionTime)
             correctAnswers++;
             updateProgressBar();
@@ -53,7 +53,7 @@
                 clicked = true;
                 let endTime = new Date();
                 let reactionTime = endTime - startTime;
-                timeTaken+=reactionTime;
+                timeTaken += reactionTime;
                 console.log("Reaction time:", reactionTime, "ms");
                 answers.push(reactionTime)
                 correctAnswers++;
@@ -77,7 +77,10 @@
         return Math.floor(Math.random() * (maxInterval - minInterval + 1)) + minInterval;
     }
 
-    setInterval(playSound, getRandomTimeInterval());
+    startButton.addEventListener('click', function () {
+        startButton.disabled = true; // Чтобы кнопка нельзя было нажать повторно
+        setInterval(playSound, getRandomTimeInterval());
+    });
 </script>
 </body>
 </html>

@@ -54,9 +54,11 @@
 <body>
 <div th:replace="~{blocks/for_tests}"></div>
 <div class="main">
+
     <div id="message"></div>
     <div id="circle"></div>
     <div id="time"></div>
+
     <div class="squares-container">
         <div id="square_1" class="squares">
             <div class="square-text">Нажмите Z</div>
@@ -81,7 +83,7 @@
         let timeToChange = 5000; // 5 секунд
 
         setTimeout(function () {
-            let timer = setInterval(function () {
+            setInterval(function () {
                 timeToChange = 1500; // Интервал изменения цвета после первого изменения
                 circle.style.backgroundColor = getRandomColor();
                 startTime = new Date().getTime();
@@ -89,7 +91,7 @@
 
                 setTimeout(function () {
                     if (!circleClicked && circle.style.backgroundColor === message) {
-                        timeTaken+=1500;
+                        timeTaken += 1500;
                         console.log("Опоздал");
 
                         // Добавьте здесь любой код, который вам нужен для обработки случая, когда пользователь не нажал кнопку вовремя
@@ -114,7 +116,7 @@
                 ((event.key === "c" || event.key === "C" || event.key === "с" || event.key === "С") && message === "orangered")) && circle.style.backgroundColor === message && !circleClicked) {
                 reactionTime = new Date().getTime() - startTime;
                 answers.push(reactionTime);
-                timeTaken+=reactionTime;
+                timeTaken += reactionTime;
                 correctAnswers++;
                 updateProgressBar();
                 circleClicked = true;
@@ -154,7 +156,8 @@
                 return colors[randomIndex];
             }
         }
-        function showResult(){
+
+        function showResult() {
             // Перенаправляем на другую страницу
 
             localStorage.setItem('answers', JSON.stringify(answers));

@@ -16,7 +16,9 @@
 </head>
 <body>
 <div th:replace="~{blocks/for_tests}"></div>
+<button id="startButton">Начать</button>
 <div class="main">
+
     <div id="circle_1" class="circle" style="display: inline-block;"></div>
     <div id="circle_2" class="circle" style="display: inline-block;"></div>
     <div id="circle_3" class="circle"></div>
@@ -34,11 +36,11 @@
             let circles = document.getElementsByClassName("circle");
             let randomIndex = Math.floor(Math.random() * circles.length);
             let randomCircle = circles[randomIndex];
-            if (!circleClicked && !firstTime){
+            if (!circleClicked && !firstTime) {
                 firstTime = false;
                 let endTime = new Date();
                 let reactionTime = endTime - startTime;
-                timeTaken+=reactionTime;
+                timeTaken += reactionTime;
                 // circleClicked = true;
                 console.log("Reaction time:", reactionTime, "ms");
                 answers.push(reactionTime)
@@ -60,11 +62,11 @@
             startTime = new Date();
             // Обработчик события нажатия на клавишу пробел
             document.addEventListener("keydown", function (event) {
-                if (event.code === "Space" && (randomCircle.style.backgroundColor === "red" || randomCircle.style.backgroundColor === "rgba(255, 255, 255, 0.1)")  && !circleClicked) {
+                if (event.code === "Space" && (randomCircle.style.backgroundColor === "red" || randomCircle.style.backgroundColor === "rgba(255, 255, 255, 0.1)") && !circleClicked) {
                     circleClicked = true;
                     let endTime = new Date().getTime();
                     let reactionTime = endTime - startTime;
-                    timeTaken+=reactionTime;
+                    timeTaken += reactionTime;
                     console.log("Reaction time:", reactionTime, "ms");
                     answers.push(reactionTime)
                     correctAnswers++;
@@ -87,8 +89,11 @@
             }, 1000);
         }
 
-        // Запускаем функцию каждые 10 секунд
-        setInterval(changeCircleColor, 5000);
+        startButton.addEventListener('click', function () {
+            startButton.disabled = true; // Чтобы кнопка нельзя было нажать повторно
+            // Запускаем функцию каждые 10 секунд
+            setInterval(changeCircleColor, 5000);
+        });
     </script>
 </div>
 </body>
