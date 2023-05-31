@@ -67,6 +67,7 @@
             if (chosenTime === '' || !(/^\d+$/.test(chosenTime)) || parseInt(chosenTime) < 2 || parseInt(chosenTime) > 45) {
                 alert('Невалидная форма записи')
             } else {
+                // chosenTime = parseInt(chosenTimeS.value);
                 startTime = new Date().getTime();
                 chosenTimeS.style.display = 'none';
                 words.style.display = 'none';
@@ -92,13 +93,13 @@
                     }
                 }
 
-                function updateProgressBar() {
-                    let correctPercentage = ((new Date().getTime() - startTime) / (parseFloat(chosenTime) * 60000) * 100);
-                    progressBar.style.width = correctPercentage + '%';
-                    if ((new Date().getTime() - startTime) >= (parseFloat(chosenTime) * 60000)) {
-                        showResults();
-                    }
-                }
+                // function updateProgressBar() {
+                //     let correctPercentage = ((new Date().getTime() - startTime) / (parseFloat(chosenTime) * 60000) * 100);
+                //     progressBar.style.width = correctPercentage + '%';
+                //     if ((new Date().getTime() - startTime) >= (parseFloat(chosenTime) * 60000)) {
+                //         showResults();
+                //     }
+                // }
 
                 function getRandomPosition() {
                     return Math.random() < 0.5 ? 'left' : 'right';
