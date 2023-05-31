@@ -58,7 +58,7 @@
     let rings = []; // Массив для хранения колец
     const numRings = 9; // Количество колец
     let totalRings = 400; // Общее количество маленьких изображений
-    const chosenTime = 20000; // Время выбора в миллисекундах (5 минут)
+    const chosenTime = 0.1; // Время выбора в миллисекундах (5 минут)
     let neededRotation;
     let selectedRings = []; // Массив для хранения выбранных колец
     restart = true;
@@ -131,7 +131,7 @@
     function startLandoltCTest() {
         container.addEventListener('click', handleRingClick);
         setInterval(updateProgressBar, 500);
-        setTimeout(stopLandoltCTest, chosenTime + 100);
+        setTimeout(stopLandoltCTest, chosenTime * 60000 + 100);
     }
 
     // Завершение теста Landolt C
@@ -147,6 +147,9 @@
             startLandoltCTest();
         } else {
             restart = false;
+            resetTest();
+            createRings();
+            startLandoltCTest();
             // Все три теста завершены
         }
     }
