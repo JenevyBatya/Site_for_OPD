@@ -49,7 +49,8 @@
 </div>
 <script>
     document.addEventListener("DOMContentLoaded", function (event) {
-        setInterval(updateProgressBar, 500);
+        // setInterval(updateProgressBar, 500);
+        let startTime = new Date().getTime()
         var numberGameContainer = document.getElementById("number-game");
         var numberTable = document.getElementById("number-table");
         var numberInputContainer = document.getElementById("number-input-container");
@@ -104,8 +105,9 @@
             'почта', 'почему', 'слово', 'мышь', 'стул', 'чудо', 'рука', 'голова', 'мозг', 'свет',
             'медведь', 'глаз', 'стена', 'подарок', 'звук', 'муравейник', 'степь', 'кролик', 'птицы', 'город'
         ]);
+        currentIndex=0
 
-        var currentIndex = 0;
+        var currentIndex;
         var showTime = 5000; // 5 секунд
 
         function shuffleArray(array) {
@@ -114,7 +116,8 @@
 
         // Показ слов
         function showWords() {
-            if (currentIndex < 5) {
+
+            if (currentIndex < 15) {
                 wordElement.innerText = words[currentIndex];
                 correctWords.push(words[currentIndex])
                 currentIndex++;
@@ -122,19 +125,23 @@
                 setTimeout(showWords, showTime);
             } else {
                 // Завершение показа слов и отображение поля ввода
+                currentIndex=0
+                correctWords = shuffleArray(correctWords)
                 wordContainer.style.display = "none";
                 wordInputContainer.style.display = "block";
             }
         }
 
         function showWordsAgain() {
-            if (currentIndex < 5) {
-                correctWords = shuffleArray(correctWords)
+            if (currentIndex < 15) {
+
                 wordElement.innerText = correctWords[currentIndex];
                 currentIndex++;
-
+                console.log(correctWords, currentIndex)
                 setTimeout(showWordsAgain, showTime);
             } else {
+                currentIndex=0
+                correctWords = shuffleArray(correctWords)
                 // Завершение показа слов и отображение поля ввода
                 wordContainer.style.display = "none";
                 wordInputContainer.style.display = "block";
@@ -158,7 +165,7 @@
             attempts++;
             if (correctCount === correctWords.length || attempts === 6) {
                 console.log('hi')
-
+                showResults()
             } else if (attempts <= 5) {
                 // Сброс теста для повторного тестирования
                 currentIndex = 0;
@@ -178,8 +185,8 @@
         }
 
         function showResults() {
-            localStorage.setItem('correctNumbers', correctNumbers);
-            localStorage.setItem('correctWordsThroughAttempts', correctWordsThroughAttempts);
+            localStorage.setItem('correctNumbers', JSON.stringify(correctNumbers));
+            localStorage.setItem('correctWordsThroughAttempts',JSON.stringify(correctWordsThroughAttempts));
             window.location.replace('/tests/test_11/test_result');
         }
     });

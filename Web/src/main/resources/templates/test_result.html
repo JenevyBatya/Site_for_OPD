@@ -26,6 +26,9 @@
     <div th:if="${testId==10}">
         <div th:replace="~{tests_results/lab_5 :: header_10}"></div>
     </div>
+    <div th:if="${testId==11}">
+        <div th:replace="~{tests_results/lab_5 :: header_11}"></div>
+    </div>
     <form id="reaction-form" th:action="'/tests/test_' + ${testId} + '/test_result'" method="post">
         <input type="hidden" id="result" name="answersList" value="">
         <input type="hidden" id="labels" name="labelsList" value="">
