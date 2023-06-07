@@ -4,8 +4,45 @@
     <meta charset="UTF-8">
     <title>Title</title>
 </head>
-<body>
+<body th:fragment="header">
+<div id="words">Дождитесь загрузки данных о сердечной ритме от наблюдателя</div>
+<input type="text" id="answerPulseS" required/>
+<button id="continueButton">Продолжить</button>
+<div id="pvkList"></div>
+<br>
+<div id="professions">
+    <div>Рейтинг профессий, которые могут вас заинтересовать исходя из полученных ПВК</div>
+    <div id="professionRating"></div>
+</div>
 <script>
+
+    let showPage = false;
+    let answerPulse = 0;
+    let answerPulseS = document.getElementById('answerPulseS');
+    let prof = document.getElementById('professions')
+    const pvkArrayContent = document.getElementById('pvkList')
+    const arrayContentElement = document.getElementById('professionRating');
+    const reactionForm = document.getElementById('form');
+    pvkArrayContent.style.display = 'none';
+    prof.style.display = 'none';
+    reactionForm.style.display = 'none';
+    let continueButton = document.getElementById('continueButton');
+
+    continueButton.addEventListener('click', function () {
+        answerPulse = answerPulseS.value;
+        if (answerPulse === '' || !(/^\d+$/.test(answerPulse)) || (![11, 22, 33, 44, 55, 66].includes(parseInt(answerPulse)))) {
+            alert('Невалидная форма записи')
+        } else {
+            answerPulse = parseInt(answerPulse)
+            continueButton.style.display = 'none'
+            document.getElementById('words').style.display = 'none'
+            document.getElementById('answerPulseS').style.display = 'none'
+            pvkArrayContent.style.display = 'block';
+            prof.style.display = 'block';
+            reactionForm.style.display = 'block';
+        }
+    });
+
 
     function findFirstTwoIndexes(arr, element) {
         let indexes = [];
@@ -73,31 +110,32 @@
     console.log(minusElements);
     console.log(averageModule, averageMinus, averagePlus)
     console.log(deviantModule, deviantMinus, deviantPlus);
-
-    let chartData = {
-        labels: [...Array(reactionTimes.length).keys()].map((num) => num + 1),
-        datasets: [{
-            label: 'Время реакции(мс)',
-            data: reactionTimes,
-            backgroundColor: 'rgba(255, 99, 132, 0.2)',
-            borderColor: 'rgba(255, 99, 132, 1)',
-            borderWidth: 1
-        }]
-    };
-    let chartOptions = {
-        scales: {
-            yAxes: [{
-                ticks: {
-                    beginAtZero: true
-                }
+    if (reactionTimes.length !== 0) {
+        let chartData = {
+            labels: [...Array(reactionTimes.length).keys()].map((num) => num + 1),
+            datasets: [{
+                label: 'Время реакции(мс)',
+                data: reactionTimes,
+                backgroundColor: 'rgba(255, 99, 132, 0.2)',
+                borderColor: 'rgba(255, 99, 132, 1)',
+                borderWidth: 1
             }]
-        }
-    };
-    let chart = new Chart(document.getElementById('chart'), {
-        type: 'bar',
-        data: chartData,
-        options: chartOptions
-    });
+        };
+        let chartOptions = {
+            scales: {
+                yAxes: [{
+                    ticks: {
+                        beginAtZero: true
+                    }
+                }]
+            }
+        };
+        let chart = new Chart(document.getElementById('chart'), {
+            type: 'bar',
+            data: chartData,
+            options: chartOptions
+        });
+    }
     let labelsList;
     let answersList;
 
@@ -219,7 +257,7 @@
         parseFloat(averageMinus_1), parseFloat(averagePlus_1), parseFloat(averageModule_1), parseFloat(deviantMinus_1), parseFloat(deviantPlus_1), parseFloat(deviantModule_1),
         parseFloat(averageMinus_2), parseFloat(averagePlus_2), parseFloat(averageModule_2), parseFloat(deviantMinus_2), parseFloat(deviantPlus_2), parseFloat(deviantModule_2),
         parseFloat(averageMinus_3), parseFloat(averagePlus_3), parseFloat(averageModule_3), parseFloat(deviantMinus_3), parseFloat(deviantPlus_3), parseFloat(deviantModule_3),
-        missTimes, mistakenTimes, reactionPresence, chosenTime]
+        missTimes, mistakenTimes, reactionPresence, chosenTime, parseFloat(answerPulse)]
     labelsList = ['Среднее значение по преждевременному ответу(общее)', 'Среднее значение по запаздыванию ответа(общее)',
         'Среднее значение ответа по модулю(общее)', 'Стандарт отклонения по преждевременному ответу(общее)', 'Стандарт отклонения по запаздыванию ответа(общее)',
         'Стандарт отклонения ответа по модулю(общее)',
@@ -232,7 +270,7 @@
         'Среднее значение по преждевременному ответу(3 круг)', 'Среднее значение по запаздыванию ответа(3 круг)',
         'Среднее значение ответа по модулю(3 круг)', 'Стандарт отклонения по преждевременному ответу(3 круг)', 'Стандарт отклонения по запаздыванию ответа(3 круг)',
         'Стандарт отклонения ответа по модулю(3 круг)',
-        'Количество пропусков', 'Количество неверных нажатий', 'Процент наличия реакции', 'Выбранное время теста(мин)']
+        'Количество пропусков', 'Количество неверных нажатий', 'Процент наличия реакции', 'Выбранное время теста(мин)', 'Числовая характеристика записанного пульса']
 
     if (prematureReaction >= (-400)) {
         synchro += 10;
@@ -269,37 +307,47 @@
         stimuli += 2;
     }
 
-    if (mistakenTimes < 6) {
-        quality += 10;
-        spreading += 10;
 
-    } else if (mistakenTimes < 10) {
-        quality += 6;
-        spreading += 6;
-    } else {
-        quality += 2;
-        spreading += 2;
-    }
     let reactionDelay;
     let reactionDelayForList;
+    if (reactionTimes.length !== 0) {
+        if (mistakenTimes < 6) {
+            quality += 10;
+            spreading += 10;
 
-    if (minusElements.length > plusElements.length) {
-        reactionDelay = 13;
-        reactionDelayForList = 10;
-        quality += 10
-        stimuli += 2
-    } else if (minusElements.length === plusElements.length) {
-        reactionDelay = 12
-        reactionDelayForList = 6;
-        stimuli += 6
-        quality += 6
+        } else if (mistakenTimes < 10) {
+            quality += 6;
+            spreading += 6;
+        } else {
+            quality += 2;
+            spreading += 2;
+        }
+        if (minusElements.length > plusElements.length) {
+            reactionDelay = 13;
+            reactionDelayForList = 10;
+            quality += 10
+            stimuli += 2
+        } else if (minusElements.length === plusElements.length) {
+            reactionDelay = 12
+            reactionDelayForList = 6;
+            stimuli += 6
+            quality += 6
+        } else {
+            reactionDelay = 11
+            reactionDelayForList = 2;
+            stimuli += 10
+            quality += 2
+        }
     } else {
-        reactionDelay = 11
-        reactionDelayForList = 2;
-        stimuli += 10
         quality += 2
-    }
+        spreading += 2
+        stimuli += 2
+        quality += 2
+        reactionDelayForList = 2
+        reactionDelay = 11
 
+
+    }
     let priority = {
         2: "понижено",
         4: "ниже среднего",
@@ -311,15 +359,31 @@
         13: "маленькая"
 
     }
-
-    let pvkLevel = {
-        "Синхронизация между символом и ответом": priority[Math.round(synchro / 2)], //0
-        "Способность к распределению внимания": priority[Math.round(spreading / 2)], //1
-        "Качество быстрой обработки информации": priority[Math.round(quality / 2)], //2
-        "Удержание реакции": priority[Math.round(retention / 2)],                   //3
-        "Реакция на стимулы": priority[Math.round(stimuli / 2)],                    //4
-        "Задержка в обработке информации": priority[reactionDelay],                 //5
+    let pulse = {
+        11: "У вас отличный результат, ваш пульс практически не изменился ",
+        22: "У вас отличный результат, во время теста ваш пульс участился",
+        33: "Ваш результат ниже среднего, ваш пульс практически не изменился",
+        44: "Ваш результат ниже среднего,  во время теста ваш пульс участился",
+        55: "У вас хороший результат и пульс держался в пределах нормы",
+        66: "У вас был пониженный пульс  до прохождения теста, следует обратится к врачу"
     }
+    let pvkLevel = [
+        "Синхронизация между символом и ответом: " + priority[Math.round(synchro / 2)], //0
+        "Способность к распределению внимания: " + priority[Math.round(spreading / 2)], //1
+        "Качество быстрой обработки информации: " + priority[Math.round(quality / 2)], //2
+        "Удержание реакции: " + priority[Math.round(retention / 2)],                   //3
+        "Реакция на стимулы: " + priority[Math.round(stimuli / 2)],                    //4
+        "Задержка в обработке информации: " + priority[reactionDelay],                 //5
+        pulse[answerPulse]
+    ]
+
+
+    pvkLevel.forEach(item => {
+        const itemElement = document.createElement('p');
+        itemElement.textContent = item;
+        pvkArrayContent.appendChild(itemElement);
+    })
+
     let priorityList = [Math.round(synchro / 2), Math.round(spreading / 2), Math.round(quality / 2), Math.round(retention / 2), Math.round(stimuli / 2), reactionDelayForList]
     let highestPvk = []
     let element = 10;
@@ -337,35 +401,36 @@
         }
     }
     let professionList = {
-        '01': "",
-        '02': "",
-        '03': "Специалист по информационной безопасности",
-        '04': "Системный аналитик",
-        '05': "",
-        '12': "Веб-дизайнер",
-        '13': "",
-        '14': "",
-        '15': "Проектный менеджер",
-        '22': "",
-        '23': "",
-        '24': "Бэкенд-разработчик",
-        '25': "",
-        '34': "",
-        '35': "Специалист по тестированию ПО",
-        '45': "",
+        '01': "UX/UI дизайнер: отвечает за создание пользовательских интерфейсов, обеспечивает гармоничное взаимодействие между пользователем и продуктом, требует способности к синхронизации и \n" +
+            "вниманию к деталям.",
+        '02': "Front-end разработчик: занимается созданием клиентской части веб-приложений, требует быстроты реакции на изменения и обработки информации.",
+        '03': "Project менеджер: управляет проектами, координирует задачи и ресурсы, требует умения сосредотачивать внимание на деталях и длительное удержание внимания.",
+        '04': "Data аналитик: анализирует большие объемы данных и делает выводы на основе полученной информации, требует способности быстро реагировать на стимулы и принимать соответствующие решения",
+        '05': "Network администратор: отвечает за настройку и поддержку сетевой инфраструктуры, требует оперативности в реагировании на проблемы и быстрой обработки информации",
+        '12': "Data scientist: занимается анализом и интерпретацией данных, требует способности эффективно распределять внимание и быстро обрабатывать информацию",
+        '13': "Информационная безопасность (IT Security) аналитик: занимается обеспечением безопасности информационных систем, требует умения удерживать внимание на деталях и эффективно распределять его",
+        '14': "IT проектный менеджер: руководит IT-проектами, распределяет ресурсы и управляет командой, требует способности эффективно распределять внимание и оперативно реагировать на изменения",
+        '15': "DevOps инженер: отвечает за автоматизацию процессов разработки и эксплуатации программного обеспечения, требует умения одновременно уделять внимание нескольким задачам и оперативности в обработке информации",
+        '23': "Back-end разработчик: отвечает за разработку серверной части веб-приложений, требует быстрой обработки информации и умения удерживать внимание на деталях",
+        '24': "Machine learning инженер: занимается разработкой и обучением алгоритмов машинного обучения, требует быстрой обработки информации и способности эффективно реагировать на стимулы",
+        '25': "Data engineer: отвечает за обработку и управление данными, требует быстрой обработки информации и минимальной задержки",
+        '34': "IT-аналитик: анализирует бизнес-требования и разрабатывает стратегии для IT-проектов, требует способности эффективно реагировать на стимулы и удерживать внимание на деталях",
+        '35': "QA инженер: отвечает за контроль качества программного обеспечения, требует быстрой обработки информации и способности удерживать внимание на деталях",
+        '45': "Интерфейсный дизайнер: создает графические интерфейсы для веб-приложений или мобильных приложений, требует быстрой обработки информации и способности эффективно реагировать на стимулы",
     }
-    let professionListKey = highestPvk.join('')
     let combinationList;
-    let rating = []
-
-
     let forRating = [findAllIndexes(priorityList, 10), findAllIndexes(priorityList, 8),
         findAllIndexes(priorityList, 6), findAllIndexes(priorityList, 4), findAllIndexes(priorityList, 2)]
+    console.log(forRating)
     for (let i = 0; i < (forRating.length - 1); i++) {
         combinationList = forRating[i].concat(forRating[i + 1])
+
         for (let firstNum = 0; firstNum < combinationList.length; firstNum++) {
-            for (let secondNum = (i + 1); secondNum < combinationList.length; secondNum++) {
-                rating.push([firstNum, secondNum].join(''))
+            for (let secondNum = (firstNum + 1); secondNum < combinationList.length; secondNum++) {
+                const itemElement = document.createElement('p');
+                itemElement.textContent = professionList['' + combinationList[firstNum] + combinationList[secondNum]]
+                arrayContentElement.appendChild(itemElement)
+
             }
         }
 
