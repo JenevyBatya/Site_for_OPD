@@ -78,6 +78,9 @@
     }
 
     document.addEventListener('DOMContentLoaded', function () {
+        setInterval(function (){
+            updateProgressBar()
+        },1000);
 
         let circleContainer = document.getElementById('circle-container');
         let circle = document.getElementById('circle');
@@ -89,7 +92,6 @@
         updateSpeed();
 
         function updateCircle() {
-            updateProgressBar()
             let radius = circleContainer.offsetWidth / 2;
             let angle = (circlePosition / 180) * Math.PI;
             let circleX = radius * Math.cos(angle) + radius;

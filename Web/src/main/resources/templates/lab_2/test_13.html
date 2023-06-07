@@ -40,7 +40,8 @@
 </head>
 <body>
 <div th:replace="~{blocks/for_tests_with_time}"></div>
-<div class="container">
+<div id="timer"></div>
+<div class="container" id="container">
     <div id="circle-container_1" class="circle-container">
         <div id="circle_1" class="circle"></div>
         <div class="star" style="top: 50%;" id="star_1"></div>
@@ -56,16 +57,10 @@
 </div>
 
 
-<button id="startButton">Начать</button>
-<label id="words">Выберите желаемое время прохождения теста:
-    <input type="text" id="chosenTimeS" required/>
-</label>
-
 <script>
     let timeTaken = 0;
     let circleSpeed;
     let clicked = false;
-    let chosenTimeS = document.getElementById('chosenTimeS');
     let words = document.getElementById('words');
     let testMode = false;
     let startTime;
@@ -75,13 +70,12 @@
     let reactionTimes_3 = [];
     let missTimes = 0;
     let mistakenTimes = 0;
-    let chosenTime;
+    let chosenTime = 19;
     let firstTime = true;
     let circle_1Speed;
     let reactionTime_1;
     let d = [];
     let changerSpeed = 8.3;
-
 
     function showResults() {
         clicked = true;
@@ -99,9 +93,42 @@
     }
 
     document.addEventListener('DOMContentLoaded', function () {
-        setInterval(function (){
-            updateProgressBar()
-        },1000);
+        document.getElementById('container').style.display = 'none';
+
+        let seconds = 2 * 60;
+        let firstRest = setInterval(function () {
+            document.getElementById("timer").innerHTML = 'Время: ' + Math.floor(seconds / 60) + '.' + (seconds % 60);
+            seconds--;
+        }, 1000)
+
+        setTimeout(function () { //First two minutes
+            document.getElementById("timer").style.display = 'none';
+            document.getElementById('container').style.display = 'block';
+            testMode = true;
+            startTime = new Date().getTime()
+            clearInterval(firstRest)
+            setTimeout(function () {
+                updateProgressBar();
+            }, 1000)
+            updateCircle()
+
+            setTimeout(function () { //Then 15 minutes for test
+                document.getElementById("timer").style.display = 'block'
+                document.getElementById('container').style.display = 'none';
+                testMode = false
+                seconds = 2 * 60;
+                setInterval(function () {
+                    document.getElementById("timer").innerHTML = 'Время: ' + Math.floor(seconds / 60) + '.' + (seconds % 60);
+                    seconds--;
+                }, 1000)
+
+                setTimeout(function () { //Second two minutes
+                    showResults()
+                }, 5000)
+
+            }, 10000)
+
+        }, 5000);
 
         let circleContainer_1 = document.getElementById('circle-container_1');
         let circleContainer_2 = document.getElementById('circle-container_2');
@@ -131,6 +158,7 @@
         // updateSpeed();
 
         function updateCircle() {
+            updateProgressBar()
             let radius = circleContainer_1.offsetWidth / 2;
             let angle_1 = (circle_1Position / 180) * Math.PI;
             let angle_2 = (circle_2Position / 180) * Math.PI;
@@ -222,21 +250,6 @@
         }
 
 
-        startButton.addEventListener('click', function () {
-            chosenTime = chosenTimeS.value;
-            console.log(chosenTime)
-            if (chosenTime === '' || !(/^\d+$/.test(chosenTime)) || parseInt(chosenTime) < 2 || parseInt(chosenTime) > 45) {
-                alert('Невалидная форма записи')
-            } else {
-                startTime = new Date().getTime();
-                chosenTimeS.style.display = 'none';
-                words.style.display = 'none';
-                testMode = true;
-                startButton.disabled = true; // Чтобы кнопка нельзя было нажать повторно
-                updateCircle();
-            }
-        });
-
         document.addEventListener('keydown', function (event) {
             if (testMode) {
                 //goldenrod
@@ -275,8 +288,10 @@
 
     })
     ;
-</script>
 
+</script>
+</body>
+</html>
 <!--<script>-->
 <!--    let star_1 = document.getElementById('star_1');-->
 <!--    let star_2 = document.getElementById('star_2');-->
@@ -424,5 +439,4 @@
 <!--        return circleColor;-->
 <!--    }-->
 <!--</script>-->
-</body>
-</html>
+

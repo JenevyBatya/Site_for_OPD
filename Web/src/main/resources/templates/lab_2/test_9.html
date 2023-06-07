@@ -100,9 +100,12 @@
                     startShaking(2900);
                 }
             }
+            setInterval(function (){
+                updateProgressBar()
+            },1000);
 
             function handleMouseMove(event) {
-                updateProgressBar()
+
                 let containerRect = container.getBoundingClientRect();
                 let containerWidth = container.offsetWidth;
                 let playerWidth = player.offsetWidth;

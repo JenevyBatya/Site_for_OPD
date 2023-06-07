@@ -60,6 +60,9 @@
     }
 
     document.addEventListener('DOMContentLoaded', function () {
+        setInterval(function (){
+            updateProgressBar()
+        },1000);
 
         // console.log(chosenTime)
         startButton.addEventListener('click', function () {
@@ -89,7 +92,6 @@
                             circle.style.left = (containerWidth / 2 + newDistance) + 'px';
                             direction = 'right';
                         }
-                        updateProgressBar(); // Обновление прогресс-бара при каждом вызове moveCircle()
                     }
                 }
 

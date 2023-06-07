@@ -117,7 +117,7 @@
         // Показ слов
         function showWords() {
 
-            if (currentIndex < 15) {
+            if (currentIndex < 3) {
                 wordElement.innerText = words[currentIndex];
                 correctWords.push(words[currentIndex])
                 currentIndex++;
@@ -133,7 +133,7 @@
         }
 
         function showWordsAgain() {
-            if (currentIndex < 15) {
+            if (currentIndex < 3) {
 
                 wordElement.innerText = correctWords[currentIndex];
                 currentIndex++;
@@ -167,6 +167,7 @@
                 console.log('hi')
                 showResults()
             } else if (attempts <= 5) {
+                setTimeout(1000);
                 // Сброс теста для повторного тестирования
                 currentIndex = 0;
                 wordContainer.style.display = "block";

@@ -178,10 +178,10 @@
     // console.log(allRightRings + ' ' + rightRings + ' ' + wrongRings + ' ' + beforeChosen);
 
     function showResults(){
-        localStorage.setItem('allRightRings', allRightRings)
-        localStorage.setItem('rightRings',rightRings)
-        localStorage.setItem('wrongRings',wrongRings)
-        localStorage.setItem('beforeChosen',beforeChosen)
+        localStorage.setItem('allRightRings', JSON.stringify(allRightRings))
+        localStorage.setItem('rightRings',JSON.stringify(rightRings))
+        localStorage.setItem('wrongRings',JSON.stringify(wrongRings))
+        localStorage.setItem('beforeChosen',JSON.stringify(beforeChosen))
         window.location.replace('/tests/test_10/test_result');
     }
 
