@@ -9,6 +9,7 @@
 <input type="text" id="answerPulseS" required/>
 <button id="continueButton">Продолжить</button>
 <div id="pvkList"></div>
+<div id="pulse"></div>
 <br>
 <div id="professions">
     <div>Рейтинг профессий, которые могут вас заинтересовать исходя из полученных ПВК</div>
@@ -17,7 +18,8 @@
 <script>
 
     let showPage = false;
-    let answerPulse = 0;
+    let answerPulse;
+    let userPulseResult;
     let answerPulseS = document.getElementById('answerPulseS');
     let prof = document.getElementById('professions')
     const pvkArrayContent = document.getElementById('pvkList')
@@ -27,13 +29,23 @@
     prof.style.display = 'none';
     reactionForm.style.display = 'none';
     let continueButton = document.getElementById('continueButton');
+    let pulse = {
+        11: "У вас отличный результат, ваш пульс практически не изменился ",
+        22: "У вас отличный результат, во время теста ваш пульс участился",
+        33: "Ваш результат ниже среднего, ваш пульс практически не изменился",
+        44: "Ваш результат ниже среднего,  во время теста ваш пульс участился",
+        55: "У вас хороший результат и пульс держался в пределах нормы",
+        66: "У вас был пониженный пульс  до прохождения теста, следует обратится к врачу"
+    }
 
     continueButton.addEventListener('click', function () {
         answerPulse = answerPulseS.value;
         if (answerPulse === '' || !(/^\d+$/.test(answerPulse)) || (![11, 22, 33, 44, 55, 66].includes(parseInt(answerPulse)))) {
             alert('Невалидная форма записи')
         } else {
+
             answerPulse = parseInt(answerPulse)
+            document.getElementById('pulse').innerHTML = pulse[answerPulse]
             continueButton.style.display = 'none'
             document.getElementById('words').style.display = 'none'
             document.getElementById('answerPulseS').style.display = 'none'
@@ -359,14 +371,7 @@
         13: "маленькая"
 
     }
-    let pulse = {
-        11: "У вас отличный результат, ваш пульс практически не изменился ",
-        22: "У вас отличный результат, во время теста ваш пульс участился",
-        33: "Ваш результат ниже среднего, ваш пульс практически не изменился",
-        44: "Ваш результат ниже среднего,  во время теста ваш пульс участился",
-        55: "У вас хороший результат и пульс держался в пределах нормы",
-        66: "У вас был пониженный пульс  до прохождения теста, следует обратится к врачу"
-    }
+
     let pvkLevel = [
         "Синхронизация между символом и ответом: " + priority[Math.round(synchro / 2)], //0
         "Способность к распределению внимания: " + priority[Math.round(spreading / 2)], //1
@@ -376,6 +381,9 @@
         "Задержка в обработке информации: " + priority[reactionDelay],                 //5
         pulse[answerPulse]
     ]
+    console.log(pulse[answerPulse])
+    console.log(answerPulse)
+    console.log(pulse)
 
 
     pvkLevel.forEach(item => {

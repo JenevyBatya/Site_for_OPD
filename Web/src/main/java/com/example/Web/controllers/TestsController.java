@@ -13,6 +13,7 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
+
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
 import java.util.List;
@@ -34,9 +35,12 @@ public class TestsController {
     public String tests(Model model, Authentication authentication) {
         int userId = userRepo.findByEmail(authentication.getName()).getId();
         String availableTestsS = "select new Tests(at.tests.id,t.name,t.description) from AvailableTests at inner join Tests t on at.tests.id=t.id where at.user.id= :id order by at.tests.id";
+
         List<Tests> availableTests = entityManager.createQuery(availableTestsS, Tests.class)
                 .setParameter("id", userId)
                 .getResultList();
+
+
         model.addAttribute("availableTests", availableTests);
         boolean test = authentication != null && authentication.isAuthenticated();
         model.addAttribute("test", test);
@@ -49,7 +53,7 @@ public class TestsController {
     }
 
     @GetMapping("/tests/test_{text}/test_result")
-    public String res(@PathVariable(value = "text") int text,Model model) {
+    public String res(@PathVariable(value = "text") int text, Model model) {
         model.addAttribute("testId", text);
         return "test_result";
     }
@@ -64,7 +68,7 @@ public class TestsController {
         FinishedSessionUserTest finishedSessionUserTest = new FinishedSessionUserTest(userRepo.findByEmail(authentication.getName()), testsRepo.findById(Integer.parseInt(text)).get());
         System.out.println(finishedSessionUserTest);
         finishedSessionUserTestRepo.save(finishedSessionUserTest);
-        for (int i = 0; i<answers.size();i++) {
+        for (int i = 0; i < answers.size(); i++) {
             allTestsResultRepo.save(new AllTestsResult(finishedSessionUserTest, answers.get(i), labels.get(i)));
         }
         return "redirect:/tests";

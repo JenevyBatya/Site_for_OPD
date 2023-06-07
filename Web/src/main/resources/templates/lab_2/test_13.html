@@ -41,6 +41,7 @@
 <body>
 <div th:replace="~{blocks/for_tests_with_time}"></div>
 <div id="timer"></div>
+<div id="currency"></div>
 <div class="container" id="container">
     <div id="circle-container_1" class="circle-container">
         <div id="circle_1" class="circle"></div>
@@ -58,10 +59,13 @@
 
 
 <script>
+    let moduleElements;
+    let moduleSumAve;
     let timeTaken = 0;
     let circleSpeed;
     let clicked = false;
     let words = document.getElementById('words');
+    let currency = document.getElementById('currency');
     let testMode = false;
     let startTime;
     let reactionTimes = [];
@@ -94,6 +98,7 @@
 
     document.addEventListener('DOMContentLoaded', function () {
         document.getElementById('container').style.display = 'none';
+        currency.style.display = 'none';
 
         let seconds = 2 * 60;
         let firstRest = setInterval(function () {
@@ -104,6 +109,8 @@
         setTimeout(function () { //First two minutes
             document.getElementById("timer").style.display = 'none';
             document.getElementById('container').style.display = 'block';
+            currency.style.display = 'block';
+            currency.innerHTML = '0%'
             testMode = true;
             startTime = new Date().getTime()
             clearInterval(firstRest)
@@ -111,12 +118,29 @@
                 updateProgressBar();
             }, 1000)
             updateCircle()
+            setInterval(function () {
+                moduleElements = reactionTimes.map((num) => Math.abs(num));
+                try {
+                    moduleSumAve = (moduleElements
+                        .reduce((accumulator, currentValue) => accumulator + currentValue, 0)+3000*missTimes) / (reactionTimes.length + missTimes + mistakenTimes);
+                    let percent = (100 - ((moduleSumAve / 3000) * 100)).toFixed(2) + '%'
+                    if (percent === 'NaN%') {
+                        currency.innerHTML = '0%'
+                    } else {
+                        currency.innerHTML = percent;
+                    }
+                } catch (e) {
+                    currency.innerHTML = '0%'
+                }
+            }, 1000)
 
             setTimeout(function () { //Then 15 minutes for test
+                seconds = 2 * 60;
+                currency.style.display = 'none';
                 document.getElementById("timer").style.display = 'block'
                 document.getElementById('container').style.display = 'none';
                 testMode = false
-                seconds = 2 * 60;
+
                 setInterval(function () {
                     document.getElementById("timer").innerHTML = 'Время: ' + Math.floor(seconds / 60) + '.' + (seconds % 60);
                     seconds--;
