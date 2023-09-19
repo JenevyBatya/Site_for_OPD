@@ -16,7 +16,6 @@
     <div id="professionRating"></div>
 </div>
 <script>
-
     let showPage = false;
     let answerPulse;
     let userPulseResult;
@@ -37,13 +36,11 @@
         55: "У вас хороший результат и пульс держался в пределах нормы",
         66: "У вас был пониженный пульс  до прохождения теста, следует обратится к врачу"
     }
-
     continueButton.addEventListener('click', function () {
         answerPulse = answerPulseS.value;
         if (answerPulse === '' || !(/^\d+$/.test(answerPulse)) || (![11, 22, 33, 44, 55, 66].includes(parseInt(answerPulse)))) {
             alert('Невалидная форма записи')
         } else {
-
             answerPulse = parseInt(answerPulse)
             document.getElementById('pulse').innerHTML = pulse[answerPulse]
             continueButton.style.display = 'none'
@@ -54,8 +51,6 @@
             reactionForm.style.display = 'block';
         }
     });
-
-
     function findFirstTwoIndexes(arr, element) {
         let indexes = [];
         let firstIndex = arr.indexOf(element);
@@ -78,8 +73,6 @@
         }
         return indexes;
     }
-
-
     let deviantModule = 0;
     let deviantPlus = 0;
     let deviantMinus = 0;
@@ -150,7 +143,6 @@
     }
     let labelsList;
     let answersList;
-
     let deviantModule_1 = 0;
     let deviantPlus_1 = 0;
     let deviantMinus_1 = 0;
@@ -264,7 +256,6 @@
     let stimuli = 0;
     let retention = 0;
 
-
     answersList = [prematureReaction, delayedReaction, parseFloat(averageModule), parseFloat(deviantMinus), parseFloat(deviantPlus), parseFloat(deviantModule),
         parseFloat(averageMinus_1), parseFloat(averagePlus_1), parseFloat(averageModule_1), parseFloat(deviantMinus_1), parseFloat(deviantPlus_1), parseFloat(deviantModule_1),
         parseFloat(averageMinus_2), parseFloat(averagePlus_2), parseFloat(averageModule_2), parseFloat(deviantMinus_2), parseFloat(deviantPlus_2), parseFloat(deviantModule_2),
@@ -283,7 +274,6 @@
         'Среднее значение ответа по модулю(3 круг)', 'Стандарт отклонения по преждевременному ответу(3 круг)', 'Стандарт отклонения по запаздыванию ответа(3 круг)',
         'Стандарт отклонения ответа по модулю(3 круг)',
         'Количество пропусков', 'Количество неверных нажатий', 'Процент наличия реакции', 'Выбранное время теста(мин)', 'Числовая характеристика записанного пульса']
-
     if (prematureReaction >= (-400)) {
         synchro += 10;
         spreading += 10;
@@ -294,7 +284,6 @@
         synchro += 2;
         spreading += 2;
     }
-
     if (delayedReaction <= 800) {
         synchro += 10;
         retention += 10;
@@ -304,9 +293,7 @@
     } else {
         synchro += 2;
         retention += 2;
-
     }
-
     if (reactionPresence > 70) {
         retention += 10;
         stimuli += 10;
@@ -318,8 +305,6 @@
         retention += 2;
         stimuli += 2;
     }
-
-
     let reactionDelay;
     let reactionDelayForList;
     if (reactionTimes.length !== 0) {
@@ -357,8 +342,6 @@
         quality += 2
         reactionDelayForList = 2
         reactionDelay = 11
-
-
     }
     let priority = {
         2: "понижено",
@@ -369,29 +352,22 @@
         11: "большая",
         12: "средняя",
         13: "маленькая"
-
     }
-
     let pvkLevel = [
-        "Синхронизация между символом и ответом: " + priority[Math.round(synchro / 2)], //0
+        "Согласованность движений с процессами восприятия: " + priority[Math.round(synchro / 2)], //0
         "Способность к распределению внимания: " + priority[Math.round(spreading / 2)], //1
-        "Качество быстрой обработки информации: " + priority[Math.round(quality / 2)], //2
-        "Удержание реакции: " + priority[Math.round(retention / 2)],                   //3
-        "Реакция на стимулы: " + priority[Math.round(stimuli / 2)],                    //4
-        "Задержка в обработке информации: " + priority[reactionDelay],                 //5
+        "Концентрированность внимания: " + priority[Math.round(quality / 2)], //2
+        "Аккуратность в работе: " + priority[Math.round(retention / 2)],                   //3
+        "Переключаемость внимания: " + priority[Math.round(stimuli / 2)],                    //4
+        "Оперативность(скорость мыслительных реакций): " + priority[reactionDelay],                 //5
         pulse[answerPulse]
     ]
-    console.log(pulse[answerPulse])
-    console.log(answerPulse)
-    console.log(pulse)
-
 
     pvkLevel.forEach(item => {
         const itemElement = document.createElement('p');
         itemElement.textContent = item;
         pvkArrayContent.appendChild(itemElement);
     })
-
     let priorityList = [Math.round(synchro / 2), Math.round(spreading / 2), Math.round(quality / 2), Math.round(retention / 2), Math.round(stimuli / 2), reactionDelayForList]
     let highestPvk = []
     let element = 10;
@@ -438,18 +414,13 @@
                 const itemElement = document.createElement('p');
                 itemElement.textContent = professionList['' + combinationList[firstNum] + combinationList[secondNum]]
                 arrayContentElement.appendChild(itemElement)
-
             }
         }
-
     }
-
-
     console.log(answersList)
     document.getElementById("result").value = JSON.stringify(answersList);
     document.getElementById("labels").value = JSON.stringify(labelsList);
     localStorage.clear()
-
 </script>
 
 </body>

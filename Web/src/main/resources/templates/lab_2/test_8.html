@@ -95,26 +95,18 @@
                     }
                 }
 
-                // function updateProgressBar() {
-                //     let correctPercentage = ((new Date().getTime() - startTime) / (parseFloat(chosenTime) * 60000) * 100);
-                //     progressBar.style.width = correctPercentage + '%';
-                //     if ((new Date().getTime() - startTime) >= (parseFloat(chosenTime) * 60000)) {
-                //         showResults();
-                //     }
-                // }
-
                 function getRandomPosition() {
                     return Math.random() < 0.5 ? 'left' : 'right';
                 }
 
                 document.addEventListener('keydown', function (event) {
-                    if (isMoving && event.keyCode === 37 && direction === 'left') {
+                    if (isMoving && event.keyCode === 39 && direction === 'left') {
                         clicked = true;
                         reactionTime = new Date().getTime() - reactionTime
                         reactionTimes.push(reactionTime)
                         console.log(reactionTime)
                         resetCircle();
-                    } else if (isMoving && event.keyCode === 39 && direction === 'right') {
+                    } else if (isMoving && event.keyCode === 37 && direction === 'right') {
                         clicked = true;
                         reactionTime = new Date().getTime() - reactionTime
                         reactionTimes.push(reactionTime)
